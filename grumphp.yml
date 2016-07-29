@@ -34,5 +34,9 @@ parameters:
                 priority: 100
         xmllint: ~
         yamllint: ~
+        aus_bom_fixer:
+            auto_fix: true
+            metadata:
+                priority: 100
     extensions:
-        - AUS\GrumPhpBomTask\ExtensionLoader
+        - AUS\GrumPHPBomTask\ExtensionLoader

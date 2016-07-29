@@ -7,11 +7,6 @@
         "friendsofphp/php-cs-fixer": "1.11.*",
         "andersundsehr/grumphp-bom-task": "1.0.*"
     },
-    "autoload":{
-        "psr-4":{
-            "AUS\\GrumphpBomTask\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Matthias Vogel",
