@@ -1,0 +1,22 @@
+{
+    "name": "andersundsehr/grumphp-config",
+    "require": {
+        "php": ">=5.6",
+        "phpro/grumphp": "0.9.*",
+        "squizlabs/php_codesniffer": "2.6.*",
+        "friendsofphp/php-cs-fixer": "1.11.*",
+        "andersundsehr/grumphp-bom-task": "1.0.*"
+    },
+    "autoload":{
+        "psr-4":{
+            "AUS\\GrumphpBomTask\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Matthias Vogel",
+            "email": "m.vogel@andersundsehr.com",
+            "homepage": "http://andersundsehr.com"
+        }
+    ]
+}
