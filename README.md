@@ -5,4 +5,7 @@
       "config-default-path": "vendor/andersundsehr/grumphp-config/grumphp.yml"
     }
   },
+  "require-dev": {
+    "andersundsehr/grumphp-config": "1.*"
+  }
 ````
