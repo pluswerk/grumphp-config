@@ -30,13 +30,10 @@ parameters:
         phpcsfixer:
             level: "psr2"
             verbose: true
-            metadata:
-                priority: 100
         xmllint: ~
         yamllint: ~
         aus_bom_fixer:
-            auto_fix: true
             metadata:
-                priority: 100
+                priority: 1
     extensions:
         - AUS\GrumPHPBomTask\ExtensionLoader
