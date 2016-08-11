@@ -5,7 +5,8 @@
         "phpro/grumphp": "0.*",
         "squizlabs/php_codesniffer": "2.*",
         "friendsofphp/php-cs-fixer": "1.*",
-        "andersundsehr/grumphp-bom-task": "3.*"
+        "andersundsehr/grumphp-bom-task": "3.*",
+        "andersundsehr/grumphp-xliff-task": "1.*"
     },
     "authors": [
         {

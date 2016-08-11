@@ -32,8 +32,10 @@ parameters:
             verbose: true
         xmllint: ~
         yamllint: ~
+        xlifflint: ~
         aus_bom_fixer:
             metadata:
                 priority: 1
     extensions:
         - AUS\GrumPHPBomTask\ExtensionLoader
+        - AUS\GrumPHPXliffTask\ExtensionLoader
