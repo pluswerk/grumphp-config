@@ -1,41 +1,43 @@
 parameters:
-    git_dir: .
-    bin_dir: vendor/bin
-    stop_on_failure: false
-    ignore_unstaged_changes: false #brocken
-    ascii:
-        failed: ./vendor/andersundsehr/grumphp-config/grumphp-aus-logo.txt
-        succeeded: ./vendor/andersundsehr/grumphp-config/grumphp-aus-logo.txt
-    tasks:
-        composer:
-            no_check_publish: true
-            with_dependencies: false
-            strict: false
-        git_blacklist:
-            keywords:
-                - "var_dump("
-            triggered_by: [php]
-        git_commit_message:
-            matchers:
-                - /(\[(!!!|WIP)]|)(\[(BUGFIX|FEATURE|TASK|CLEANUP|SECURITY)]|Merge branch '.+' into) .+/
-            case_insensitive: false
-            multiline: true
-            additional_modifiers: ''
-        jsonlint:
-            detect_key_conflicts: true
-        phpcs:
-            standard: "PSR2"
-            show_warnings: false
-            tab_width: 4
-        phpcsfixer:
-            level: "psr2"
-            verbose: true
-        xmllint: ~
-        yamllint: ~
-        xlifflint: ~
-        aus_bom_fixer:
-            metadata:
-                priority: 1
-    extensions:
-        - AUS\GrumPHPBomTask\ExtensionLoader
-        - AUS\GrumPHPXliffTask\ExtensionLoader
+  git_dir: .
+  bin_dir: vendor/bin
+  stop_on_failure: false
+  ignore_unstaged_changes: false #brocken
+  ascii:
+    failed: ./vendor/andersundsehr/grumphp-config/grumphp-aus-logo.txt
+    succeeded: ./vendor/andersundsehr/grumphp-config/grumphp-aus-logo.txt
+  tasks:
+    composer:
+      no_check_publish: true
+      with_dependencies: false
+      strict: false
+    git_blacklist:
+      keywords:
+        - "var_dump("
+      triggered_by: [php]
+    git_commit_message:
+      matchers:
+        - /(\[(!!!|WIP)]|)(\[(BUGFIX|FEATURE|TASK|CLEANUP|SECURITY)]|Merge branch '.+' into) .+/
+      case_insensitive: false
+      multiline: true
+      additional_modifiers: ''
+    jsonlint:
+      detect_key_conflicts: true
+    phpcs:
+      standard: "PSR2"
+      show_warnings: false
+      tab_width: 4
+    phpcsfixer:
+      level: "psr2"
+      verbose: true
+    xmllint: ~
+    yamllint: ~
+    xlifflint:
+      ignore_patterns:
+        - "#typo3conf/l10n/(.*)#"
+    aus_bom_fixer:
+      metadata:
+        priority: 1
+  extensions:
+    - AUS\GrumPHPBomTask\ExtensionLoader
+    - AUS\GrumPHPXliffTask\ExtensionLoader
