@@ -14,10 +14,18 @@ parameters:
     git_blacklist:
       keywords:
         - "var_dump("
+        - "console.log("
+        - "print_r("
+        - "exit;"
+        - "exit("
+        - "die("
+        - "die;"
       triggered_by: [php]
+      metadata:
+        blocking: false
     git_commit_message:
       matchers:
-        - /(\[(!!!|WIP)]|)(\[(BUGFIX|FEATURE|TASK|CLEANUP|SECURITY)]|Merge branch '.+' into) .+/
+        - /(\[(!!!|WIP)]|)(\[(BUGFIX|FEATURE|TASK|CLEANUP|SECURITY)]|Merge (in|branch '.+' into)) .+/
       case_insensitive: false
       multiline: true
       additional_modifiers: ''
@@ -27,9 +35,6 @@ parameters:
       standard: "PSR2"
       show_warnings: false
       tab_width: 4
-    phpcsfixer:
-      level: "psr2"
-      verbose: true
     xmllint: ~
     yamllint: ~
     xlifflint:
