@@ -20,7 +20,7 @@ parameters:
         - "exit("
         - "die("
         - "die;"
-      triggered_by: [php]
+      triggered_by: [php,js]
       metadata:
         blocking: false
     git_commit_message:
