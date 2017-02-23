@@ -20,7 +20,8 @@ parameters:
         - "exit("
         - "die("
         - "die;"
-      triggered_by: [php,js]
+        - "fileadmin"
+      triggered_by: [php,js,html]
       metadata:
         blocking: false
     git_commit_message:
