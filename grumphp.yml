@@ -2,6 +2,7 @@ parameters:
   git_dir: .
   bin_dir: vendor/bin
   stop_on_failure: false
+  hide_circumvention_tip: true
   ignore_unstaged_changes: false #brocken
   ascii:
     failed: ./vendor/andersundsehr/grumphp-config/grumphp-aus-logo.txt
@@ -21,6 +22,7 @@ parameters:
         - "die("
         - "die;"
         - "fileadmin"
+        - "DebuggerUtility"
       triggered_by: [php,js,html]
       metadata:
         blocking: false
