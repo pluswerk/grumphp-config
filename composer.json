@@ -1,17 +1,28 @@
 {
-    "name": "andersundsehr/grumphp-config",
+    "name": "pluswerk/grumphp-config",
+    "description": "GrumPHP config for php projects(mainly typo3)",
+    "type": "library",
+    "license": "LGPL-3.0",
+    "authors": [
+        {
+            "name": "Matthias Vogel",
+            "email": "matthias.vogel@pluswerk.ag",
+            "homepage": "http://pluswerk.ag"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "5.6"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/pluswerk/grumphp-config/issues"
+    },
     "require": {
         "php": ">=5.6",
         "phpro/grumphp": "0.*",
         "squizlabs/php_codesniffer": "2.* | 3.*",
-        "andersundsehr/grumphp-bom-task": "3.*",
-        "andersundsehr/grumphp-xliff-task": "1.*"
-    },
-    "authors": [
-        {
-            "name": "Matthias Vogel",
-            "email": "m.vogel@andersundsehr.com",
-            "homepage": "http://andersundsehr.com"
-        }
-    ]
+        "pluswerk/grumphp-bom-task": "4.*",
+        "pluswerk/grumphp-xliff-task": "2.*"
+    }
 }

@@ -5,8 +5,8 @@ parameters:
   hide_circumvention_tip: true
   ignore_unstaged_changes: false #brocken
   ascii:
-    failed: ./vendor/andersundsehr/grumphp-config/grumphp-aus-logo.txt
-    succeeded: ./vendor/andersundsehr/grumphp-config/grumphp-aus-logo.txt
+    failed: ./vendor/pluswerk/grumphp-config/logo.txt
+    succeeded: ./vendor/pluswerk/grumphp-config/logo.txt
   tasks:
     composer:
       no_check_publish: true
@@ -25,7 +25,7 @@ parameters:
         - "DebuggerUtility"
       triggered_by: [php,js,html]
       metadata:
-        blocking: false
+        blocking: false #show only warnings
     git_commit_message:
       matchers:
         - /(\[(!!!|WIP)]|)(\[(BUGFIX|FEATURE|TASK|CLEANUP|SECURITY)]|Merge (in|branch '.+' into)) .+/
@@ -43,9 +43,9 @@ parameters:
     xlifflint:
       ignore_patterns:
         - "#typo3conf/l10n/(.*)#"
-    aus_bom_fixer:
+    plus_bom_fixer:
       metadata:
         priority: 1
   extensions:
-    - AUS\GrumPHPBomTask\ExtensionLoader
-    - AUS\GrumPHPXliffTask\ExtensionLoader
+    - PLUS\GrumPHPBomTask\ExtensionLoader
+    - PLUS\GrumPHPXliffTask\ExtensionLoader
