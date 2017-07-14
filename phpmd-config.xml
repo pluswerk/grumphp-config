@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<ruleset name="Pluswerk phpmd Ruleset"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+  <description>
+    Pluswerk phpmd Ruleset
+  </description>
+
+  <!-- cleancode -->
+  <rule ref="rulesets/cleancode.xml"/>
+
+  <!-- codesize -->
+  <rule ref="rulesets/codesize.xml">
+    <exclude name="CyclomaticComplexity"/>
+    <exclude name="ExcessiveMethodLength"/>
+    <exclude name="ExcessiveClassLength"/>
+    <exclude name="ExcessiveParameterList"/>
+    <exclude name="ExcessivePublicCount"/>
+    <exclude name="TooManyMethods"/>
+  </rule>
+  <rule ref="rulesets/codesize.xml/CyclomaticComplexity">
+    <properties>
+      <property name="reportLevel" value="8"/>
+    </properties>
+  </rule>
+  <rule ref="rulesets/codesize.xml/ExcessiveMethodLength">
+    <properties>
+      <property name="minimum" value="60"/>
+    </properties>
+  </rule>
+  <rule ref="rulesets/codesize.xml/ExcessiveClassLength">
+    <properties>
+      <property name="minimum" value="400"/>
+    </properties>
+  </rule>
+  <rule ref="rulesets/codesize.xml/ExcessiveParameterList">
+    <properties>
+      <property name="minimum" value="5"/>
+    </properties>
+  </rule>
+  <rule ref="rulesets/codesize.xml/ExcessivePublicCount">
+    <properties>
+      <property name="minimum" value="30"/>
+    </properties>
+  </rule>
+  <rule ref="rulesets/codesize.xml/TooManyMethods">
+    <properties>
+      <property name="maxmethods" value="20"/>
+    </properties>
+  </rule>
+
+  <!-- controversial -->
+  <rule ref="rulesets/controversial.xml"/>
+
+  <!-- design -->
+  <rule ref="rulesets/design.xml">
+    <exclude name="CouplingBetweenObjects"/>
+  </rule>
+  <rule ref="rulesets/design.xml/CouplingBetweenObjects">
+    <properties>
+      <property name="minimum" value="8"/>
+    </properties>
+  </rule>
+
+  <!-- naming -->
+  <rule ref="rulesets/naming.xml">
+    <exclude name="LongVariable"/>
+    <exclude name="ShortMethodName"/>
+  </rule>
+  <rule ref="rulesets/naming.xml/LongVariable">
+    <properties>
+      <property name="maximum" value="30"/>
+    </properties>
+  </rule>
+  <rule ref="rulesets/naming.xml/ShortMethodName">
+    <properties>
+      <property name="minimum" value="5"/>
+    </properties>
+  </rule>
+
+  <!-- unusedcode -->
+  <rule ref="rulesets/unusedcode.xml"/>
+
+</ruleset>

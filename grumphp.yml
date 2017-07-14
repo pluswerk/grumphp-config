@@ -25,7 +25,7 @@ parameters:
         - "DebuggerUtility"
       triggered_by: [php,js,html]
       metadata:
-        blocking: false #show only warnings
+        blocking: false #show only as warnings
     git_commit_message:
       matchers:
         - /(\[(!!!|WIP)]|)(\[(BUGFIX|FEATURE|TASK|CLEANUP|SECURITY)]|Merge (in|branch '.+' into)) .+/
@@ -46,6 +46,12 @@ parameters:
     plus_bom_fixer:
       metadata:
         priority: 1
+    phpmd:
+      exclude: []
+      ruleset: ['./vendor/pluswerk/grumphp-config/phpmd-config.xml']
+      triggered_by: ['php']
+      metadata:
+        blocking: false #show only as warnings
   extensions:
     - PLUS\GrumPHPBomTask\ExtensionLoader
     - PLUS\GrumPHPXliffTask\ExtensionLoader
