@@ -32,6 +32,8 @@ parameters:
       case_insensitive: false
       multiline: true
       additional_modifiers: ''
+      max_subject_width: 80
+      max_body_width: 80
     jsonlint:
       detect_key_conflicts: true
     phpcs:
