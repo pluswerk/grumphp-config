@@ -1,7 +1,7 @@
 {
     "name": "pluswerk/grumphp-config",
-    "description": "GrumPHP config for php projects(mainly typo3)",
-    "type": "library",
+    "description": "GrumPHP config for php projects(mainly TYPO3)",
+    "type": "composer-plugin",
     "license": "LGPL-3.0",
     "authors": [
         {
@@ -15,15 +15,24 @@
             "php": "5.6"
         }
     },
+    "autoload": {
+        "psr-4": {
+            "PLUS\\": "src/"
+        }
+    },
     "support": {
         "issues": "https://github.com/pluswerk/grumphp-config/issues"
     },
     "require": {
         "php": ">=5.6",
+        "composer-plugin-api": "*",
         "phpmd/phpmd": "^2.6",
         "phpro/grumphp": "0.*",
         "pluswerk/grumphp-bom-task": "4.*",
         "pluswerk/grumphp-xliff-task": "2.*",
         "squizlabs/php_codesniffer": "2.* | 3.*"
+    },
+    "extra": {
+        "class": "PLUS\\Composer\\Plugin"
     }
 }
