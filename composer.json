@@ -1,6 +1,6 @@
 {
     "name": "pluswerk/grumphp-config",
-    "description": "GrumPHP config for php projects(mainly typo3)",
+    "description": "GrumPHP config for php projects(mainly TYPO3)",
     "type": "composer-plugin",
     "license": "LGPL-3.0",
     "authors": [

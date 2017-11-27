@@ -28,7 +28,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     /**
      * @var IOInterface
      */
-    protected $io;
+    protected $consoleIo;
 
     /**
      * @var array
@@ -40,10 +40,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     protected $shouldSetConfigPath = false;
 
-    public function activate(Composer $composer, IOInterface $io)
+    public function activate(Composer $composer, IOInterface $consoleIo)
     {
         $this->composer = $composer;
-        $this->io = $io;
+        $this->consoleIo = $consoleIo;
         $this->extra = $this->composer->getPackage()->getExtra();
     }
 
@@ -83,7 +83,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
     }
 
-    public function runScheduledTasks(Event $event)
+    public function runScheduledTasks()
     {
         if ($this->shouldSetConfigPath) {
             $this->setConfigPath();
@@ -114,13 +114,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         unset($this->extra[self::PACKAGE_NAME]);
         $this->removeExtra(self::PACKAGE_NAME);
 
+        $key = null;
         if (count($this->getExtra('grumphp')) > 1) {
-            $this->removeExtra('grumphp.config-default-path');
-        } else if (count($this->getExtra()) > 1) {
-            $this->removeExtra('grumphp');
-        } else {
-            $this->removeExtra();
+            $key  = 'grumphp.config-default-path';
+        } elseif (count($this->getExtra()) > 1) {
+            $key = 'grumphp';
         }
+        $this->removeExtra($key);
         $this->message('auto removed config path and ' . self::PACKAGE_NAME . ' settings', 'green');
     }
 
@@ -155,7 +155,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public function removeExtra($name = null)
     {
         $key = 'extra';
-        if($name !== null){
+        if ($name !== null) {
             $key .= '.' . $name;
         }
         $configSource = $this->composer->getConfig()->getConfigSource();
@@ -170,6 +170,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             $colorStart = '<fg=' . $color . '>';
             $colorEnd = '</fg=' . $color . '>';
         }
-        $this->io->write(self::PACKAGE_NAME . ': ' . $colorStart . $message . $colorEnd);
+        $this->consoleIo->write(self::PACKAGE_NAME . ': ' . $colorStart . $message . $colorEnd);
     }
 }
