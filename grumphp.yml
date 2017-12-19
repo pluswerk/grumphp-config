@@ -28,7 +28,7 @@ parameters:
         blocking: false #show only as warnings
     git_commit_message:
       matchers:
-        - /(\[(!!!|WIP)]|)(\[(BUGFIX|FEATURE|TASK|CLEANUP|SECURITY)]|Merge .+/
+        - /(\[(!!!|WIP)]|)(\[(BUGFIX|FEATURE|TASK|CLEANUP|SECURITY)]|Merge .+)/
       case_insensitive: false
       multiline: true
       additional_modifiers: ''
