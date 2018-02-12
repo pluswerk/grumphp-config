@@ -35,7 +35,7 @@ parameters:
     - "typo3conf/ext/extension/Resources/Private/Templates/List.xml"
 ````
 
-there you can override some conevtions:
+there you can override some convention:
 
 
 | Key                                 | Default                       |
