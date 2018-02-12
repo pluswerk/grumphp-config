@@ -20,3 +20,26 @@ if pluswerk/grumphp-config should not edit your composer.json than you must add 
   }
 }
 ````
+
+### You want to override settings?:
+
+
+Make a new grumphp.yml config file. You can put it in the root folder.
+````yaml
+imports:
+  - { resource: vendor/pluswerk/grumphp-config/grumphp.yml }
+
+
+parameters:
+  convention.xmllint_ignore_pattern:
+    - "typo3conf/ext/extension/Resources/Private/Templates/List.xml"
+````
+
+there you can override some convention:
+
+
+| Key                                 | Default                       |
+|-------------------------------------|-------------------------------|
+| convention.xmllint_ignore_pattern   | []                            |
+| convention.yamllint_ignore_pattern  | []                            |
+| convention.xlifflint_ignore_pattern | "#typo3conf/l10n/(.*)#"       |
