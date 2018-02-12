@@ -4,6 +4,9 @@ parameters:
   stop_on_failure: false
   hide_circumvention_tip: true
   ignore_unstaged_changes: false #brocken
+  convention.xmllint_ignore_pattern: []
+  convention.yamllint_ignore_pattern: []
+  convention.xlifflint_ignore_pattern: ["#typo3conf/l10n/(.*)#"]
   ascii:
     failed: ./vendor/pluswerk/grumphp-config/logo.txt
     succeeded: ./vendor/pluswerk/grumphp-config/logo.txt
@@ -40,11 +43,12 @@ parameters:
       standard: "PSR2"
       show_warnings: false
       tab_width: 4
-    xmllint: ~
-    yamllint: ~
+    xmllint:
+      ignore_patterns: "%convention.xmllint_ignore_pattern%"
+    yamllint:
+      ignore_patterns: "%convention.yamllint_ignore_pattern%"
     xlifflint:
-      ignore_patterns:
-        - "#typo3conf/l10n/(.*)#"
+      ignore_patterns: "%convention.xlifflint_ignore_pattern%"
     plus_bom_fixer:
       metadata:
         priority: 1
