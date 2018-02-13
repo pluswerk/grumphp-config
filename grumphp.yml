@@ -34,14 +34,14 @@ parameters:
         - /(\[(!!!|WIP)]|)(\[(BUGFIX|FEATURE|TASK|CLEANUP|SECURITY)]|Merge .+)/
       case_insensitive: false
       multiline: true
-      additional_modifiers: ''
+      additional_modifiers: ""
       max_subject_width: 80
       max_body_width: 80
     jsonlint:
       detect_key_conflicts: true
     phpcs:
       standard: "PSR2"
-      show_warnings: false
+      warning_severity: 900000
       tab_width: 4
     xmllint:
       ignore_patterns: "%convention.xmllint_ignore_pattern%"
@@ -54,8 +54,8 @@ parameters:
         priority: 1
     phpmd:
       exclude: []
-      ruleset: ['./vendor/pluswerk/grumphp-config/phpmd-config.xml']
-      triggered_by: ['php']
+      ruleset: ["./vendor/pluswerk/grumphp-config/phpmd-config.xml"]
+      triggered_by: ["php"]
       metadata:
         blocking: false #show only as warnings
   extensions:
