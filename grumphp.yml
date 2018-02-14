@@ -41,7 +41,7 @@ parameters:
       detect_key_conflicts: true
     phpcs:
       standard: "PSR2"
-      warning_severity: 900000
+      show_warnings: false
       tab_width: 4
     xmllint:
       ignore_patterns: "%convention.xmllint_ignore_pattern%"
