@@ -42,4 +42,5 @@ there you can override some convention:
 |-------------------------------------|-------------------------------|
 | convention.xmllint_ignore_pattern   | []                            |
 | convention.yamllint_ignore_pattern  | []                            |
+| convention.phpcslint_ignore_pattern | []                            |
 | convention.xlifflint_ignore_pattern | "#typo3conf/l10n/(.*)#"       |
