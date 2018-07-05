@@ -40,6 +40,7 @@ there you can override some convention:
 
 | Key                                 | Default                       |
 |-------------------------------------|-------------------------------|
+| convention.process_timeout          | 60                            |
 | convention.xmllint_ignore_pattern   | []                            |
 | convention.yamllint_ignore_pattern  | []                            |
 | convention.phpcslint_ignore_pattern | []                            |

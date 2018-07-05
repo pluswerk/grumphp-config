@@ -26,7 +26,6 @@
     "require": {
         "php": ">=5.6",
         "composer-plugin-api": "1.*",
-        "phpmd/phpmd": "2.6.*",
         "phpro/grumphp": "0.14.*",
         "pluswerk/grumphp-bom-task": "4.*",
         "pluswerk/grumphp-xliff-task": "2.*",
