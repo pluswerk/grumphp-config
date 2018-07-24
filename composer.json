@@ -30,7 +30,8 @@
         "pluswerk/grumphp-bom-task": "4.*",
         "pluswerk/grumphp-xliff-task": "2.*",
         "squizlabs/php_codesniffer": "2.* | 3.*",
-        "sensiolabs/security-checker": "4.*"
+        "sensiolabs/security-checker": "4.*",
+        "jakub-onderka/php-parallel-lint": "1.*"
     },
     "extra": {
         "class": "PLUS\\Composer\\Plugin"

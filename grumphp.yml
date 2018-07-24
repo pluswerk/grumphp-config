@@ -47,6 +47,7 @@ parameters:
       warning_severity: 900000
       tab_width: 4
       ignore_patterns: "%convention.phpcslint_ignore_pattern%"
+    phplint: ~
     xmllint:
       ignore_patterns: "%convention.xmllint_ignore_pattern%"
     yamllint:
