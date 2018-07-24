@@ -53,6 +53,7 @@ parameters:
       ignore_patterns: "%convention.yamllint_ignore_pattern%"
     xlifflint:
       ignore_patterns: "%convention.xlifflint_ignore_pattern%"
+    securitychecker: ~
     plus_bom_fixer:
       metadata:
         priority: 1
