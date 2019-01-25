@@ -41,7 +41,8 @@ there you can override some convention:
 | Key                                 | Default                       |
 |-------------------------------------|-------------------------------|
 | convention.process_timeout          | 60                            |
+| convention.jsonlint_ignore_pattern  | []                            |
 | convention.xmllint_ignore_pattern   | []                            |
 | convention.yamllint_ignore_pattern  | []                            |
 | convention.phpcslint_ignore_pattern | []                            |
-| convention.xlifflint_ignore_pattern | "#typo3conf/l10n/(.*)#"       |
+| convention.xlifflint_ignore_pattern | ["#typo3conf/l10n/(.*)#"]     |

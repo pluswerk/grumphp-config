@@ -6,6 +6,7 @@ parameters:
   ignore_unstaged_changes: false #brocken
   process_timeout: "%convention.process_timeout%"
   convention.process_timeout: 60
+  convention.jsonlint_ignore_pattern: []
   convention.xmllint_ignore_pattern: []
   convention.yamllint_ignore_pattern: []
   convention.phpcslint_ignore_pattern: []
@@ -37,6 +38,7 @@ parameters:
       max_body_width: 120
     jsonlint:
       detect_key_conflicts: true
+      ignore_patterns: "%convention.jsonlint_ignore_pattern%"
     phpcs:
       standard: "PSR2"
       warning_severity: 900000
