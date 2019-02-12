@@ -36,6 +36,7 @@ parameters:
     git_commit_message:
       max_subject_width: 120
       max_body_width: 120
+      enforce_capitalized_subject: false
     jsonlint:
       detect_key_conflicts: true
       ignore_patterns: "%convention.jsonlint_ignore_pattern%"
