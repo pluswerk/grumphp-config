@@ -30,7 +30,7 @@
         "pluswerk/grumphp-bom-task": "4.*",
         "pluswerk/grumphp-xliff-task": "2.*",
         "squizlabs/php_codesniffer": "2.* | 3.*",
-        "sensiolabs/security-checker": "4.*",
+        "sensiolabs/security-checker": "5.*",
         "jakub-onderka/php-parallel-lint": "1.*"
     },
     "extra": {
