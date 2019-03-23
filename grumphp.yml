@@ -19,20 +19,6 @@ parameters:
       no_check_publish: true
       with_dependencies: false
       strict: false
-    git_blacklist:
-      keywords:
-        - "var_dump("
-        - "console.log("
-        - "print_r("
-        - "exit;"
-        - "exit("
-        - "die("
-        - "die;"
-        - "fileadmin"
-        - "DebuggerUtility"
-      triggered_by: [php,js,html]
-      metadata:
-        blocking: false #show only as warnings
     git_commit_message:
       max_subject_width: 120
       max_body_width: 120
