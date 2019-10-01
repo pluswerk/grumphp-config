@@ -10,7 +10,7 @@ composer require pluswerk/grumphp-config --dev
 
 pluswerk/grumphp-config will add the required ``extra.grumphp.config-default-path`` automatically to your ``composer.json``.
 
-if pluswerk/grumphp-config should not edit your composer.json than you must add this:
+If pluswerk/grumphp-config should not edit your composer.json than you must add this:
 ````json
 {
   "extra": {
@@ -35,7 +35,7 @@ parameters:
     - "typo3conf/ext/extension/Resources/Private/Templates/List.xml"
 ````
 
-there you can override some convention:
+There you can override some convention:
 
 
 | Key                                 | Default                       |
