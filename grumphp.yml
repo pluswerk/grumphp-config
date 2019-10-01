@@ -27,7 +27,7 @@ parameters:
       detect_key_conflicts: true
       ignore_patterns: "%convention.jsonlint_ignore_pattern%"
     phpcs:
-      standard: "PSR2"
+      standard: "PSR12"
       warning_severity: 900000
       tab_width: 4
       ignore_patterns: "%convention.phpcslint_ignore_pattern%"
