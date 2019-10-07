@@ -10,7 +10,7 @@ composer require pluswerk/grumphp-config --dev
 
 pluswerk/grumphp-config will add the required ``extra.grumphp.config-default-path`` automatically to your ``composer.json``.
 
-If pluswerk/grumphp-config should not edit your composer.json than you must add this:
+If pluswerk/grumphp-config should not edit your composer.json then you must add this:
 ````json
 {
   "extra": {
