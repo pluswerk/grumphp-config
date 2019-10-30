@@ -41,6 +41,7 @@ There you can override some convention:
 | Key                                 | Default                       |
 |-------------------------------------|-------------------------------|
 | convention.process_timeout          | 60                            |
+| convention.security_checker_blocking| true                          |
 | convention.jsonlint_ignore_pattern  | []                            |
 | convention.xmllint_ignore_pattern   | []                            |
 | convention.yamllint_ignore_pattern  | []                            |
