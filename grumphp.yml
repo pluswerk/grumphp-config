@@ -1,10 +1,4 @@
 parameters:
-  git_dir: .
-  bin_dir: vendor/bin
-  stop_on_failure: false
-  hide_circumvention_tip: true
-  ignore_unstaged_changes: false #brocken
-  process_timeout: "%convention.process_timeout%"
   convention.process_timeout: 60
   convention.security_checker_blocking: true
   convention.jsonlint_ignore_pattern: []
@@ -12,6 +6,11 @@ parameters:
   convention.yamllint_ignore_pattern: []
   convention.phpcslint_ignore_pattern: []
   convention.xlifflint_ignore_pattern: ["#typo3conf/l10n/(.*)#"]
+grumphp:
+  stop_on_failure: false
+  hide_circumvention_tip: true
+  ignore_unstaged_changes: false #brocken
+  process_timeout: "%convention.process_timeout%"
   ascii:
     failed: ./vendor/pluswerk/grumphp-config/logo.txt
     succeeded: ./vendor/pluswerk/grumphp-config/logo.txt
