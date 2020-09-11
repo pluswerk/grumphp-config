@@ -25,7 +25,7 @@
     },
     "require": {
         "php": ">=7.2",
-        "composer-plugin-api": "1.*",
+        "composer-plugin-api": "1.* || 2.*",
         "phpro/grumphp": "0.19.*",
         "pluswerk/grumphp-bom-task": "6.*",
         "pluswerk/grumphp-xliff-task": "4.*",
