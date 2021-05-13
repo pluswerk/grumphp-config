@@ -6,6 +6,7 @@ parameters:
   convention.yamllint_ignore_pattern: []
   convention.phpcslint_ignore_pattern: []
   convention.xlifflint_ignore_pattern: ["#typo3conf/l10n/(.*)#"]
+  convention.phpstan_level: max
 grumphp:
   stop_on_failure: false
   hide_circumvention_tip: true
@@ -31,6 +32,8 @@ grumphp:
       warning_severity: 900000
       tab_width: 4
       ignore_patterns: "%convention.phpcslint_ignore_pattern%"
+    phpstan:
+      level: "%convention.phpstan_level%"
     phplint: ~
     xmllint:
       ignore_patterns: "%convention.xmllint_ignore_pattern%"
@@ -38,9 +41,10 @@ grumphp:
       ignore_patterns: "%convention.yamllint_ignore_pattern%"
     xlifflint:
       ignore_patterns: "%convention.xlifflint_ignore_pattern%"
-    securitychecker:
+    securitychecker_enlightn:
       metadata:
         blocking: "%convention.security_checker_blocking%"
+      run_always: true
     plus_bom_fixer:
       metadata:
         priority: 1

@@ -31,7 +31,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     protected $consoleIo;
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     protected $extra;
 
@@ -40,14 +40,22 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     protected $shouldSetConfigPath = false;
 
-    public function activate(Composer $composer, IOInterface $consoleIo)
+    /**
+     * @param \Composer\Composer $composer
+     * @param \Composer\IO\IOInterface $consoleIo
+     * @retrun void
+     */
+    public function activate(Composer $composer, IOInterface $consoleIo): void
     {
         $this->composer = $composer;
         $this->consoleIo = $consoleIo;
         $this->extra = $this->composer->getPackage()->getExtra();
     }
 
-    public static function getSubscribedEvents()
+    /**
+     * @return array<string, string>
+     */
+    public static function getSubscribedEvents(): array
     {
         return [
             PackageEvents::POST_PACKAGE_UPDATE => 'postPackageUpdate',
@@ -59,7 +67,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         ];
     }
 
-    public function postPackageUpdate(PackageEvent $event)
+    public function postPackageUpdate(PackageEvent $event): void
     {
         $operation = $event->getOperation();
         if ($operation instanceof UpdateOperation && $operation->getTargetPackage()->getName() === self::PACKAGE_NAME) {
@@ -67,7 +75,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
     }
 
-    public function postPackageInstall(PackageEvent $event)
+    public function postPackageInstall(PackageEvent $event): void
     {
         $operation = $event->getOperation();
         if ($operation instanceof InstallOperation && $operation->getPackage()->getName() === self::PACKAGE_NAME) {
@@ -75,7 +83,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
     }
 
-    public function prePackageUninstall(PackageEvent $event)
+    public function prePackageUninstall(PackageEvent $event): void
     {
         $operation = $event->getOperation();
         if ($operation instanceof UninstallOperation && $operation->getPackage()->getName() === self::PACKAGE_NAME) {
@@ -83,7 +91,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
     }
 
-    public function runScheduledTasks()
+    public function runScheduledTasks(): void
     {
         if ($this->shouldSetConfigPath) {
             $this->setConfigPath();
@@ -92,7 +100,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
     //ACTIONS:
 
-    public function setConfigPath()
+    public function setConfigPath(): void
     {
         if ($this->getExtra(self::PACKAGE_NAME . '.auto-setting') === false) {
             $this->message('not setting config path, extra.' . self::PACKAGE_NAME . '.auto-setting is false', 'yellow');
@@ -105,7 +113,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         }
     }
 
-    public function removeConfigPath()
+    public function removeConfigPath(): void
     {
         if ($this->getExtra(self::PACKAGE_NAME . '.auto-setting') === false) {
             $this->message('not removing config path, extra.' . self::PACKAGE_NAME . '.auto-setting is false', 'yellow');
@@ -116,7 +124,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
         $key = null;
         if (count($this->getExtra('grumphp')) > 1) {
-            $key  = 'grumphp.config-default-path';
+            $key = 'grumphp.config-default-path';
         } elseif (count($this->getExtra()) > 1) {
             $key = 'grumphp';
         }
@@ -126,7 +134,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
     // HELPER:
 
-    public function getExtra($name = null)
+    /**
+     * @param string|null $name
+     * @return mixed
+     */
+    public function getExtra(string $name = null)
     {
         if ($name === null) {
             return $this->extra;
@@ -146,27 +158,31 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         return null;
     }
 
-    public function setExtra($name, $value)
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
+    public function setExtra(string $name, $value): void
     {
         $configSource = $this->composer->getConfig()->getConfigSource();
-        return $configSource->addProperty('extra.' . $name, $value);
+        $configSource->addProperty('extra.' . $name, $value);
     }
 
-    public function removeExtra($name = null)
+    public function removeExtra(string $name = null): void
     {
         $key = 'extra';
         if ($name !== null) {
             $key .= '.' . $name;
         }
         $configSource = $this->composer->getConfig()->getConfigSource();
-        return $configSource->removeProperty($key);
+        $configSource->removeProperty($key);
     }
 
-    public function message($message, $color = null)
+    public function message(string $message, string $color = null): void
     {
         $colorStart = '';
         $colorEnd = '';
-        if (is_string($color)) {
+        if ($color) {
             $colorStart = '<fg=' . $color . '>';
             $colorEnd = '</fg=' . $color . '>';
         }
@@ -176,14 +192,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public function deactivate(Composer $composer, IOInterface $io)
+    public function deactivate(Composer $composer, IOInterface $io): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function uninstall(Composer $composer, IOInterface $io)
+    public function uninstall(Composer $composer, IOInterface $io): void
     {
     }
 }

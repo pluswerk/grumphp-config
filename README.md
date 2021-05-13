@@ -31,6 +31,7 @@ imports:
 
 
 parameters:
+  convention.phpstan_level: 1
   convention.xmllint_ignore_pattern:
     - "typo3conf/ext/extension/Resources/Private/Templates/List.xml"
 ````
@@ -47,3 +48,11 @@ There you can override some convention:
 | convention.yamllint_ignore_pattern  | []                            |
 | convention.phpcslint_ignore_pattern | []                            |
 | convention.xlifflint_ignore_pattern | ["#typo3conf/l10n/(.*)#"]     |
+| convention.phpstan_level            | max                           |
+
+
+### Upgrade to grumphp-config 5
+
+if you upgrade and not start a new Project you should set the `convention.phpstan_level` to `0` or `1`  
+so the upgrade is not that painfull for now  
+you should gradually increase the phpstan level until you reach the `max` level
