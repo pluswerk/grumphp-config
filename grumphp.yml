@@ -33,6 +33,7 @@ grumphp:
       tab_width: 4
       ignore_patterns: "%convention.phpcslint_ignore_pattern%"
     phpstan:
+      memory_limit: "-1"
       level: "%convention.phpstan_level%"
     phplint: ~
     xmllint:
