@@ -9,7 +9,7 @@ jobs:
         composer:
           - install --no-progress --no-scripts -n
           - require phpro/grumphp:* --no-progress --no-scripts -n
-#          - update --no-progress --no-scripts -n --prefer-lowest
+          - update --no-progress --no-scripts -n --prefer-lowest
     container:
       image: ${{ matrix.image }}
     steps:
