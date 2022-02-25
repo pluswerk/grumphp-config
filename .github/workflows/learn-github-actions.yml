@@ -5,9 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: baschny/php-composer-action@v1
-        with:
-          composer_version: 2
-          command: install
-          args: --no-progress --no-scripts -n
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:7.2
+      - run: composer install --no-progress --no-scripts -n
       - run: ./vendor/bin/grumphp run
