@@ -1,11 +1,99 @@
-name: learn-github-actions
+name: Run grumphp with different versions
 on: [push]
 jobs:
-  check-bats-version:
+  php_72:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: kanti/buildy step
         uses: docker://kanti/buildy:7.2
       - run: composer install --no-progress --no-scripts -n
+      - run: ./vendor/bin/grumphp run
+  php_72_lowest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:7.2
+      - run: composer update --no-progress --no-scripts -n --prefer-lowest
+      - run: ./vendor/bin/grumphp run
+  php_72_highest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:7.2
+      - run: composer require phpro/grumphp:* --no-progress --no-scripts -n
+      - run: ./vendor/bin/grumphp run
+  php_73:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:7.3
+      - run: composer install --no-progress --no-scripts -n
+      - run: ./vendor/bin/grumphp run
+  php_73_lowest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:7.3
+      - run: composer update --no-progress --no-scripts -n --prefer-lowest
+      - run: ./vendor/bin/grumphp run
+  php_73_highest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:7.3
+      - run: composer require phpro/grumphp:* --no-progress --no-scripts -n
+      - run: ./vendor/bin/grumphp run
+  php_74:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:7.4
+      - run: composer install --no-progress --no-scripts -n
+      - run: ./vendor/bin/grumphp run
+  php_74_lowest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:7.4
+      - run: composer update --no-progress --no-scripts -n --prefer-lowest
+      - run: ./vendor/bin/grumphp run
+  php_74_highest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:7.4
+      - run: composer require phpro/grumphp:* --no-progress --no-scripts -n
+      - run: ./vendor/bin/grumphp run
+  php_80:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:8.0
+      - run: composer install --no-progress --no-scripts -n
+      - run: ./vendor/bin/grumphp run
+  php_80_lowest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:8.0
+      - run: composer update --no-progress --no-scripts -n --prefer-lowest
+      - run: ./vendor/bin/grumphp run
+  php_80_highest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: kanti/buildy step
+        uses: docker://kanti/buildy:8.0
+      - run: composer require phpro/grumphp:* --no-progress --no-scripts -n
       - run: ./vendor/bin/grumphp run
