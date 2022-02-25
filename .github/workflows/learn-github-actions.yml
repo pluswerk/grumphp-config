@@ -1,7 +1,7 @@
 name: Run grumphp with different versions
 on: [push]
 jobs:
-  php_72:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
