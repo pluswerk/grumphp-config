@@ -5,16 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['72', '74']
+        image: ['kanti/buildy:7.3', 'kanti/buildy:7.4', 'kanti/buildy:8.0']
         composer:
           - install --no-progress --no-scripts -n
-          - update --no-progress --no-scripts -n --prefer-lowest
           - require phpro/grumphp:* --no-progress --no-scripts -n
+#          - update --no-progress --no-scripts -n --prefer-lowest
+    container:
+      image: ${{ matrix.image }}
     steps:
       - uses: actions/checkout@v2
-      - name: kanti/buildy step
-        uses: ./.github/actions/buildy-action
-        with:
-          phpversion: ${{ matrix.php }}
       - run: composer ${{ matrix.composer }}
       - run: ./vendor/bin/grumphp run
