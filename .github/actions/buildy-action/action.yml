@@ -1,0 +1,10 @@
+name: 'Build php'
+description: 'Some php image'
+inputs:
+  phpversion:
+    description: 'php version'
+    required: false
+    default: '74'
+runs:
+  using: 'docker'
+  image: ${{ inputs.phpversion }}'/Dockerfile'
