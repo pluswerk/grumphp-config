@@ -17,28 +17,28 @@ use GrumPHP\Event\TaskEvents;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
-    const PACKAGE_NAME = 'pluswerk/grumphp-config';
-    const DEFAULT_CONFIG_PATH = 'vendor/' . self::PACKAGE_NAME . '/grumphp.yml';
+    private const PACKAGE_NAME = 'pluswerk/grumphp-config';
+    private const DEFAULT_CONFIG_PATH = 'vendor/' . self::PACKAGE_NAME . '/grumphp.yml';
 
     /**
      * @var Composer
      */
-    protected $composer;
+    protected Composer $composer;
 
     /**
      * @var IOInterface
      */
-    protected $consoleIo;
+    protected IOInterface $consoleIo;
 
     /**
      * @var array<string, mixed>
      */
-    protected $extra;
+    protected array $extra;
 
     /**
      * @var bool
      */
-    protected $shouldSetConfigPath = false;
+    protected bool $shouldSetConfigPath = false;
 
     /**
      * @param \Composer\Composer $composer
@@ -123,9 +123,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $this->removeExtra(self::PACKAGE_NAME);
 
         $key = null;
-        if (count($this->getExtra('grumphp')) > 1) {
+        if ($this->getExtra('grumphp')) {
             $key = 'grumphp.config-default-path';
-        } elseif (count($this->getExtra()) > 1) {
+        } elseif ($this->getExtra()) {
             $key = 'grumphp';
         }
         $this->removeExtra($key);
@@ -150,6 +150,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             if (!isset($arr[$bit])) {
                 $arr[$bit] = [];
             }
+            if (!is_array($arr[$bit])) {
+                return null;
+            }
             $arr = &$arr[$bit];
         }
         if (isset($arr[$last])) {
@@ -160,7 +163,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param string|bool $value
      */
     public function setExtra(string $name, $value): void
     {
