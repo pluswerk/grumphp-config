@@ -23,6 +23,7 @@ If pluswerk/grumphp-config should not edit your composer.json then you must add 
 
 ### You want to override settings?:
 
+You need to deactivate the `auto-setting` `false` and set the `grumphp.config-default-path` setting to `"grumphp.yml"`.
 
 Make a new grumphp.yml config file. You can put it in the root folder.
 ````yaml
