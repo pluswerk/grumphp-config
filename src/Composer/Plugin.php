@@ -1,6 +1,6 @@
 <?php
 
-namespace PLUS\Composer;
+namespace PLUS\GrumPHPConfig\Composer;
 
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;
@@ -17,38 +17,25 @@ use GrumPHP\Event\TaskEvents;
 
 class Plugin implements PluginInterface, EventSubscriberInterface
 {
+    /** @var string */
     private const PACKAGE_NAME = 'pluswerk/grumphp-config';
+
+    /** @var string */
     private const DEFAULT_CONFIG_PATH = 'vendor/' . self::PACKAGE_NAME . '/grumphp.yml';
 
-    /**
-     * @var Composer
-     */
     protected Composer $composer;
 
-    /**
-     * @var IOInterface
-     */
-    protected IOInterface $consoleIo;
+    protected IOInterface $io;
 
-    /**
-     * @var array<string, mixed>
-     */
-    protected array $extra;
+    /** @var array<string, mixed> */
+    protected array $extra = [];
 
-    /**
-     * @var bool
-     */
     protected bool $shouldSetConfigPath = false;
 
-    /**
-     * @param \Composer\Composer $composer
-     * @param \Composer\IO\IOInterface $consoleIo
-     * @retrun void
-     */
-    public function activate(Composer $composer, IOInterface $consoleIo): void
+    public function activate(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
-        $this->consoleIo = $consoleIo;
+        $this->io = $io;
         $this->extra = $this->composer->getPackage()->getExtra();
     }
 
@@ -64,6 +51,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
             ScriptEvents::POST_INSTALL_CMD => 'runScheduledTasks',
             ScriptEvents::POST_UPDATE_CMD => 'runScheduledTasks',
+
+            ScriptEvents::POST_AUTOLOAD_DUMP => 'postAutoloadDump',
         ];
     }
 
@@ -106,6 +95,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             $this->message('not setting config path, extra.' . self::PACKAGE_NAME . '.auto-setting is false', 'yellow');
             return;
         }
+
         $this->setExtra(self::PACKAGE_NAME . '.auto-setting', true);
         if ($this->getExtra('grumphp.config-default-path') !== self::DEFAULT_CONFIG_PATH) {
             $this->setExtra('grumphp.config-default-path', self::DEFAULT_CONFIG_PATH);
@@ -119,6 +109,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             $this->message('not removing config path, extra.' . self::PACKAGE_NAME . '.auto-setting is false', 'yellow');
             return;
         }
+
         unset($this->extra[self::PACKAGE_NAME]);
         $this->removeExtra(self::PACKAGE_NAME);
 
@@ -128,6 +119,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         } elseif ($this->getExtra()) {
             $key = 'grumphp';
         }
+
         $this->removeExtra($key);
         $this->message('auto removed config path and ' . self::PACKAGE_NAME . ' settings', 'green');
     }
@@ -143,26 +135,24 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         if ($name === null) {
             return $this->extra;
         }
+
         $arr = $this->extra;
         $bits = explode('.', $name);
         $last = array_pop($bits);
         foreach ($bits as $bit) {
-            if (!isset($arr[$bit])) {
-                $arr[$bit] = [];
-            }
+            $arr[$bit] ??= [];
+
             if (!is_array($arr[$bit])) {
                 return null;
             }
+
             $arr = &$arr[$bit];
         }
-        if (isset($arr[$last])) {
-            return $arr[$last];
-        }
-        return null;
+
+        return $arr[$last] ?? null;
     }
 
     /**
-     * @param string $name
      * @param string|bool $value
      */
     public function setExtra(string $name, $value): void
@@ -177,6 +167,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         if ($name !== null) {
             $key .= '.' . $name;
         }
+
         $configSource = $this->composer->getConfig()->getConfigSource();
         $configSource->removeProperty($key);
     }
@@ -189,7 +180,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             $colorStart = '<fg=' . $color . '>';
             $colorEnd = '</fg=' . $color . '>';
         }
-        $this->consoleIo->write(self::PACKAGE_NAME . ': ' . $colorStart . $message . $colorEnd);
+
+        $this->io->write(self::PACKAGE_NAME . ': ' . $colorStart . $message . $colorEnd);
     }
 
     /**
@@ -204,5 +196,21 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public function uninstall(Composer $composer, IOInterface $io): void
     {
+    }
+
+
+    // Rector config copy:
+
+    public function postAutoloadDump(): void
+    {
+        $this->createRectorConfig();
+    }
+
+    private function createRectorConfig(): void
+    {
+        if (!file_exists(getcwd() . '/rector.php')) {
+            copy(dirname(__DIR__, 2) . '/rector.php', getcwd() . '/rector.php');
+            $this->message('rector.php file created', 'yellow');
+        }
     }
 }

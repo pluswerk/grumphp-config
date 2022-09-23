@@ -1,11 +1,13 @@
 parameters:
-  convention.process_timeout: 60
+  convention.process_timeout: 240
   convention.security_checker_blocking: true
   convention.jsonlint_ignore_pattern: []
   convention.xmllint_ignore_pattern: []
   convention.yamllint_ignore_pattern: []
   convention.phpcslint_ignore_pattern: []
-  convention.xlifflint_ignore_pattern: ["#typo3conf/l10n/(.*)#"]
+  convention.xlifflint_ignore_pattern: []
+  convention.rector_ignore_pattern: []
+  convention.rector_config: 'rector.php'
   convention.phpstan_level: max
 grumphp:
   stop_on_failure: false
@@ -29,7 +31,7 @@ grumphp:
       ignore_patterns: "%convention.jsonlint_ignore_pattern%"
     phpcs:
       standard: "PSR12"
-      warning_severity: 900000
+      warning_severity: 0
       tab_width: 4
       ignore_patterns: "%convention.phpcslint_ignore_pattern%"
     phpstan:
@@ -49,6 +51,15 @@ grumphp:
     plus_bom_fixer:
       metadata:
         priority: 1
+    rector:
+      whitelist_patterns: [ ]
+      config: "%convention.rector_config%"
+      triggered_by: [ 'php' ]
+      clear-cache: false
+      ignore_patterns: "%convention.rector_ignore_pattern%"
+      no-progress-bar: false
+      files_on_pre_commit: false
   extensions:
     - PLUS\GrumPHPBomTask\ExtensionLoader
     - PLUS\GrumPHPXliffTask\ExtensionLoader
+    - palPalani\GrumPhpRectorTask\ExtensionLoader
