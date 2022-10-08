@@ -14,7 +14,8 @@ return static function (RectorConfig $rectorConfig): void {
         [
             //remove that you don't need
             __DIR__ . '/src',
-            #__DIR__ . '/extensions',
+            //__DIR__ . '/extensions',
+            //__DIR__ . '/Classes',
         ]
     );
 
@@ -32,10 +33,10 @@ return static function (RectorConfig $rectorConfig): void {
             ...RectorSettings::skip(),
 
             /**
-             * do not touch these files
+             * rector should not touch these files
              */
-            __DIR__ . '/src/Example',
-            __DIR__ . '/src/Example.php',
+            //__DIR__ . '/src/Example',
+            //__DIR__ . '/src/Example.php',
         ]
     );
 };
