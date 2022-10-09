@@ -9,11 +9,14 @@ use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UninstallOperation;
 use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\InstalledVersions;
 use Composer\Installer\PackageEvent;
 use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
+use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Exception;
 use GrumPHP\Configuration\Configuration;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
@@ -51,11 +54,8 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            PackageEvents::POST_PACKAGE_UPDATE => 'heavyProcessing',
-            PackageEvents::POST_PACKAGE_INSTALL => 'heavyProcessing',
-
-            ScriptEvents::POST_INSTALL_CMD => 'heavyProcessing',
             ScriptEvents::POST_UPDATE_CMD => 'heavyProcessing',
+            ScriptEvents::POST_INSTALL_CMD => 'heavyProcessing',
 
             ScriptEvents::POST_AUTOLOAD_DUMP => 'simpleProcessing',
         ];
@@ -64,6 +64,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
     public function heavyProcessing(): void
     {
         $this->removeOldConfigPath();
+        $this->installTypo3Dependencies();
         $this->createGrumphpConfig();
 
         $this->simpleProcessing();
@@ -101,6 +102,30 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
         $rootPackage->setExtra($extra);
     }
 
+    private function installTypo3Dependencies(): void
+    {
+        if (!InstalledVersions::isInstalled('typo3/cms-core')) {
+            return;
+        }
+
+        $typo3RelatedPackages = [
+            'saschaegerer/phpstan-typo3' => '>=1.1.2',
+            'ssch/typo3-rector' => '1.0.x-dev',
+        ];
+
+        $changed = false;
+        foreach ($typo3RelatedPackages as $package => $version) {
+            if (!InstalledVersions::isInstalled($package)) {
+                $this->composer->getConfig()->getConfigSource()->addLink('require-dev', $package, $version);
+                $changed = true;
+            }
+        }
+
+        if ($changed) {
+            passthru('composer update ' . implode(' ', array_keys($typo3RelatedPackages)));
+        }
+    }
+
     private function createRectorConfig(): void
     {
         if (!file_exists(getcwd() . '/rector.php')) {
@@ -119,11 +144,14 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
                     ['resource' => 'vendor/pluswerk/grumphp-config/grumphp.yml'],
                 ],
             ];
-            file_put_contents($grumphpPath, Yaml::dump($defaultImport));
+            file_put_contents($grumphpPath, Yaml::dump($defaultImport, 2, 2));
             $this->message('grumphp.yml file created', 'yellow');
         }
 
         $data = Yaml::parseFile($grumphpPath);
+        assert(is_array($data));
+        $data['parameters'] ??= [];
+        assert(is_array($data['parameters']));
 
         if (($data['imports'][0]['resource'] ?? '') !== 'vendor/pluswerk/grumphp-config/grumphp.yml') {
             return;
@@ -132,12 +160,15 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
         $changed = false;
 
         $templateData = Yaml::parseFile($grumphpTemplatePath);
-        foreach ($templateData['parameters'] ?? [] as $key => $value) {
+        assert(is_array($templateData));
+        $templateData['parameters'] ??= [];
+        assert(is_array($templateData['parameters']));
+        foreach ($templateData['parameters'] as $key => $value) {
             if (!str_starts_with((string)$key, 'convention.')) {
                 continue;
             }
 
-            if (($data['parameters'][$key] ?? null) === $value) {
+            if (array_key_exists((string)$key, $data['parameters'])) {
                 continue;
             }
 
@@ -146,7 +177,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
         }
 
         if ($changed) {
-            file_put_contents($grumphpPath, Yaml::dump($data));
+            file_put_contents($grumphpPath, Yaml::dump($data, 2, 2));
             $this->message('added some default conventions to grumphp.yml', 'yellow');
         }
     }
