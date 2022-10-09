@@ -8,7 +8,9 @@ parameters:
   convention.xlifflint_ignore_pattern: []
   convention.rector_ignore_pattern: []
   convention.rector_config: 'rector.php'
+  convention.rector_clear-cache: false
   convention.phpstan_level: max
+
 grumphp:
   stop_on_failure: false
   hide_circumvention_tip: true
@@ -55,7 +57,7 @@ grumphp:
       whitelist_patterns: [ ]
       config: "%convention.rector_config%"
       triggered_by: [ 'php' ]
-      clear-cache: false
+      clear-cache: "%convention.rector_clear-cache%"
       ignore_patterns: "%convention.rector_ignore_pattern%"
       no-progress-bar: false
       files_on_pre_commit: false

@@ -11,12 +11,11 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->importShortClasses();
 
     $rectorConfig->paths(
-        [
-            //remove that you don't need
-            __DIR__ . '/src',
-            //__DIR__ . '/extensions',
-            //__DIR__ . '/Classes',
-        ]
+        array_filter([
+            is_dir(__DIR__ . '/src') ? __DIR__ . '/src' : null,
+            is_dir(__DIR__ . '/extensions') ? __DIR__ . '/extensions' : null,
+            is_dir(__DIR__ . '/Classes') ? __DIR__ . '/Classes' : null,
+        ])
     );
 
     // define sets of rules

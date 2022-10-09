@@ -27,7 +27,8 @@ class RectorSettings
      */
     public static function sets(): array
     {
-        $phpfile = constant(LevelSetList::class . '::UP_TO_PHP_' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION);
+        $phpVersion = VersionUtility::getMinimalPhpVersion() ?? PHP_MAJOR_VERSION . PHP_MINOR_VERSION;
+        $phpfile = constant(LevelSetList::class . '::UP_TO_PHP_' . $phpVersion);
         assert(is_string($phpfile));
 
         return [

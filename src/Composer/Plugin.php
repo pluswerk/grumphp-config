@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PLUS\GrumPHPConfig\Composer;
 
 use Composer\Composer;
@@ -11,177 +13,22 @@ use Composer\Installer\PackageEvent;
 use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
-use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
-use GrumPHP\Event\TaskEvents;
+use GrumPHP\Configuration\Configuration;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Yaml\Yaml;
 
-class Plugin implements PluginInterface, EventSubscriberInterface
+final class Plugin implements PluginInterface, EventSubscriberInterface
 {
-    /** @var string */
-    private const PACKAGE_NAME = 'pluswerk/grumphp-config';
+    private Composer $composer;
 
-    /** @var string */
-    private const DEFAULT_CONFIG_PATH = 'vendor/' . self::PACKAGE_NAME . '/grumphp.yml';
-
-    protected Composer $composer;
-
-    protected IOInterface $io;
-
-    /** @var array<string, mixed> */
-    protected array $extra = [];
-
-    protected bool $shouldSetConfigPath = false;
+    private IOInterface $io;
 
     public function activate(Composer $composer, IOInterface $io): void
     {
         $this->composer = $composer;
         $this->io = $io;
-        $this->extra = $this->composer->getPackage()->getExtra();
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            PackageEvents::POST_PACKAGE_UPDATE => 'postPackageUpdate',
-            PackageEvents::POST_PACKAGE_INSTALL => 'postPackageInstall',
-            PackageEvents::PRE_PACKAGE_UNINSTALL => 'prePackageUninstall',
-
-            ScriptEvents::POST_INSTALL_CMD => 'runScheduledTasks',
-            ScriptEvents::POST_UPDATE_CMD => 'runScheduledTasks',
-
-            ScriptEvents::POST_AUTOLOAD_DUMP => 'postAutoloadDump',
-        ];
-    }
-
-    public function postPackageUpdate(PackageEvent $event): void
-    {
-        $operation = $event->getOperation();
-        if ($operation instanceof UpdateOperation && $operation->getTargetPackage()->getName() === self::PACKAGE_NAME) {
-            $this->shouldSetConfigPath = true;
-        }
-    }
-
-    public function postPackageInstall(PackageEvent $event): void
-    {
-        $operation = $event->getOperation();
-        if ($operation instanceof InstallOperation && $operation->getPackage()->getName() === self::PACKAGE_NAME) {
-            $this->shouldSetConfigPath = true;
-        }
-    }
-
-    public function prePackageUninstall(PackageEvent $event): void
-    {
-        $operation = $event->getOperation();
-        if ($operation instanceof UninstallOperation && $operation->getPackage()->getName() === self::PACKAGE_NAME) {
-            $this->removeConfigPath();
-        }
-    }
-
-    public function runScheduledTasks(): void
-    {
-        if ($this->shouldSetConfigPath) {
-            $this->setConfigPath();
-        }
-    }
-
-    //ACTIONS:
-
-    public function setConfigPath(): void
-    {
-        if ($this->getExtra(self::PACKAGE_NAME . '.auto-setting') === false) {
-            $this->message('not setting config path, extra.' . self::PACKAGE_NAME . '.auto-setting is false', 'yellow');
-            return;
-        }
-
-        $this->setExtra(self::PACKAGE_NAME . '.auto-setting', true);
-        if ($this->getExtra('grumphp.config-default-path') !== self::DEFAULT_CONFIG_PATH) {
-            $this->setExtra('grumphp.config-default-path', self::DEFAULT_CONFIG_PATH);
-            $this->message('auto setting grumphp.config-default-path', 'green');
-        }
-    }
-
-    public function removeConfigPath(): void
-    {
-        if ($this->getExtra(self::PACKAGE_NAME . '.auto-setting') === false) {
-            $this->message('not removing config path, extra.' . self::PACKAGE_NAME . '.auto-setting is false', 'yellow');
-            return;
-        }
-
-        unset($this->extra[self::PACKAGE_NAME]);
-        $this->removeExtra(self::PACKAGE_NAME);
-
-        $key = null;
-        if ($this->getExtra('grumphp')) {
-            $key = 'grumphp.config-default-path';
-        } elseif ($this->getExtra()) {
-            $key = 'grumphp';
-        }
-
-        $this->removeExtra($key);
-        $this->message('auto removed config path and ' . self::PACKAGE_NAME . ' settings', 'green');
-    }
-
-    // HELPER:
-
-    /**
-     * @param string|null $name
-     * @return mixed
-     */
-    public function getExtra(string $name = null)
-    {
-        if ($name === null) {
-            return $this->extra;
-        }
-
-        $arr = $this->extra;
-        $bits = explode('.', $name);
-        $last = array_pop($bits);
-        foreach ($bits as $bit) {
-            $arr[$bit] ??= [];
-
-            if (!is_array($arr[$bit])) {
-                return null;
-            }
-
-            $arr = &$arr[$bit];
-        }
-
-        return $arr[$last] ?? null;
-    }
-
-    /**
-     * @param string|bool $value
-     */
-    public function setExtra(string $name, $value): void
-    {
-        $configSource = $this->composer->getConfig()->getConfigSource();
-        $configSource->addProperty('extra.' . $name, $value);
-    }
-
-    public function removeExtra(string $name = null): void
-    {
-        $key = 'extra';
-        if ($name !== null) {
-            $key .= '.' . $name;
-        }
-
-        $configSource = $this->composer->getConfig()->getConfigSource();
-        $configSource->removeProperty($key);
-    }
-
-    public function message(string $message, string $color = null): void
-    {
-        $colorStart = '';
-        $colorEnd = '';
-        if ($color) {
-            $colorStart = '<fg=' . $color . '>';
-            $colorEnd = '</fg=' . $color . '>';
-        }
-
-        $this->io->write(self::PACKAGE_NAME . ': ' . $colorStart . $message . $colorEnd);
     }
 
     /**
@@ -198,12 +45,60 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     {
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            PackageEvents::POST_PACKAGE_UPDATE => 'heavyProcessing',
+            PackageEvents::POST_PACKAGE_INSTALL => 'heavyProcessing',
 
-    // Rector config copy:
+            ScriptEvents::POST_INSTALL_CMD => 'heavyProcessing',
+            ScriptEvents::POST_UPDATE_CMD => 'heavyProcessing',
 
-    public function postAutoloadDump(): void
+            ScriptEvents::POST_AUTOLOAD_DUMP => 'simpleProcessing',
+        ];
+    }
+
+    public function heavyProcessing(): void
+    {
+        $this->removeOldConfigPath();
+        $this->createGrumphpConfig();
+
+        $this->simpleProcessing();
+    }
+
+    public function simpleProcessing(): void
     {
         $this->createRectorConfig();
+    }
+
+    private function removeOldConfigPath(): void
+    {
+        $rootPackage = $this->composer->getPackage();
+        $extra = $rootPackage->getExtra();
+        $configSource = $this->composer->getConfig()->getConfigSource();
+
+        $configDefaultPath = $extra['grumphp']['config-default-path'] ?? '';
+        if (in_array($configDefaultPath, ['grumphp.yml', 'vendor/pluswerk/grumphp-config/grumphp.yml'])) {
+            unset($extra['grumphp']['config-default-path']);
+            $configSource->removeProperty('extra.grumphp.config-default-path');
+            $this->message('removed extra.grumphp.config-default-path', 'yellow');
+            if (empty($extra['grumphp'])) {
+                unset($extra['grumphp']);
+                $configSource->removeProperty('extra.grumphp');
+                $this->message('removed extra.grumphp', 'yellow');
+            }
+        }
+
+        if (isset($extra['pluswerk/grumphp-config'])) {
+            unset($extra['pluswerk/grumphp-config']);
+            $configSource->removeProperty('extra.pluswerk/grumphp-config');
+            $this->message('removed extra.pluswerk/grumphp-config', 'yellow');
+        }
+
+        $rootPackage->setExtra($extra);
     }
 
     private function createRectorConfig(): void
@@ -212,5 +107,61 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             copy(dirname(__DIR__, 2) . '/rector.php', getcwd() . '/rector.php');
             $this->message('rector.php file created', 'yellow');
         }
+    }
+
+    private function createGrumphpConfig(): void
+    {
+        $grumphpPath = getcwd() . '/grumphp.yml';
+        $grumphpTemplatePath = dirname(__DIR__, 2) . '/grumphp.yml';
+        if (!file_exists($grumphpPath)) {
+            $defaultImport = [
+                'imports' => [
+                    ['resource' => 'vendor/pluswerk/grumphp-config/grumphp.yml'],
+                ],
+            ];
+            file_put_contents($grumphpPath, Yaml::dump($defaultImport));
+            $this->message('grumphp.yml file created', 'yellow');
+        }
+
+        $data = Yaml::parseFile($grumphpPath);
+
+        if (($data['imports'][0]['resource'] ?? '') !== 'vendor/pluswerk/grumphp-config/grumphp.yml') {
+            return;
+        }
+
+        $changed = false;
+
+        $templateData = Yaml::parseFile($grumphpTemplatePath);
+        foreach ($templateData['parameters'] ?? [] as $key => $value) {
+            if (!str_starts_with((string)$key, 'convention.')) {
+                continue;
+            }
+
+            if (($data['parameters'][$key] ?? null) === $value) {
+                continue;
+            }
+
+            $data['parameters'][$key] = $value;
+            $changed = true;
+        }
+
+        if ($changed) {
+            file_put_contents($grumphpPath, Yaml::dump($data));
+            $this->message('added some default conventions to grumphp.yml', 'yellow');
+        }
+    }
+
+    // HELPER:
+
+    private function message(string $message, string $color = null): void
+    {
+        $colorStart = '';
+        $colorEnd = '';
+        if ($color) {
+            $colorStart = '<fg=' . $color . '>';
+            $colorEnd = '</fg=' . $color . '>';
+        }
+
+        $this->io->write('pluswerk/grumphp-config' . ': ' . $colorStart . $message . $colorEnd);
     }
 }
