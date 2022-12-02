@@ -6,7 +6,7 @@ use PLUS\GrumPHPConfig\RectorSettings;
 use Rector\Config\RectorConfig;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->parallel(240);
+    $rectorConfig->parallel();
     $rectorConfig->importNames();
     $rectorConfig->importShortClasses();
 
