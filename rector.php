@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 use PLUS\GrumPHPConfig\RectorSettings;
 use Rector\Config\RectorConfig;
+use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->parallel();
     $rectorConfig->importNames();
     $rectorConfig->importShortClasses();
+    $rectorConfig->cacheClass(FileCacheStorage::class);
+    $rectorConfig->cacheDirectory('./var/cache/rector');
 
     $rectorConfig->paths(
         array_filter([
@@ -22,6 +25,8 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets(
         [
             ...RectorSettings::sets(),
+            //    the filesystem caching disables parallel execution, but why?
+            ...RectorSettings::setsTypo3(),
         ]
     );
 
@@ -30,6 +35,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip(
         [
             ...RectorSettings::skip(),
+            ...RectorSettings::skipTypo3(),
 
             /**
              * rector should not touch these files

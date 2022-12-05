@@ -16,6 +16,7 @@ use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Composer\Semver\VersionParser;
 use Exception;
 use GrumPHP\Configuration\Configuration;
 use Symfony\Component\Config\FileLocator;
@@ -109,20 +110,21 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
         }
 
         $typo3RelatedPackages = [
-            'saschaegerer/phpstan-typo3' => '>=1.1.2',
-            'ssch/typo3-rector' => '1.0.x-dev',
+            'saschaegerer/phpstan-typo3' => '^1.8.2',
+            'ssch/typo3-rector' => '^1.0.6',
         ];
 
         $changed = false;
         foreach ($typo3RelatedPackages as $package => $version) {
-            if (!InstalledVersions::isInstalled($package)) {
+            if (!InstalledVersions::isInstalled($package) || !InstalledVersions::satisfies(new VersionParser(), $package, $version)) {
                 $this->composer->getConfig()->getConfigSource()->addLink('require-dev', $package, $version);
+                $this->message(sprintf('installing %s in version %s for pluswerk/grumphp-config', $package, $version), 'yellow');
                 $changed = true;
             }
         }
 
         if ($changed) {
-            passthru('composer update ' . implode(' ', array_keys($typo3RelatedPackages)));
+            passthru('composer update -W ' . implode(' ', array_keys($typo3RelatedPackages)));
         }
     }
 
