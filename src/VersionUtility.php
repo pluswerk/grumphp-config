@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace PLUS\GrumPHPConfig;
 
-use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
 
 use function json_decode;
+use function getcwd;
 
 final class VersionUtility
 {
@@ -36,8 +36,7 @@ final class VersionUtility
      */
     private static function getRootComposerJsonData(): array
     {
-        $rootPackage = InstalledVersions::getRootPackage();
-        $contents = file_get_contents($rootPackage['install_path'] . 'composer.json');
+        $contents = file_get_contents(getcwd() . '/composer.json');
         return json_decode((string)$contents, true, 512, JSON_THROW_ON_ERROR) ?: [];
     }
 }
