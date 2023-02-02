@@ -19,6 +19,7 @@ use Composer\Script\ScriptEvents;
 use Composer\Semver\VersionParser;
 use Exception;
 use GrumPHP\Configuration\Configuration;
+use PLUS\GrumPHPConfig\VersionUtility;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Yaml\Yaml;
@@ -50,13 +51,16 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, string|array{0:string, 1:int}>
      */
     public static function getSubscribedEvents(): array
     {
+        $priority = 1000;
+        // priority higher than phpro/grumphp so it dose not ask if you want to create a grumphp.yml,
+        // as we do that for you
         return [
-            ScriptEvents::POST_UPDATE_CMD => 'heavyProcessing',
-            ScriptEvents::POST_INSTALL_CMD => 'heavyProcessing',
+            ScriptEvents::POST_UPDATE_CMD => ['heavyProcessing', $priority],
+            ScriptEvents::POST_INSTALL_CMD => ['heavyProcessing', $priority],
 
             ScriptEvents::POST_AUTOLOAD_DUMP => 'simpleProcessing',
         ];
@@ -109,10 +113,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
             return;
         }
 
-        $typo3RelatedPackages = [
-            'saschaegerer/phpstan-typo3' => '^1.8.2',
-            'ssch/typo3-rector' => '^1.0.6',
-        ];
+        $typo3RelatedPackages = VersionUtility::getRequire('typo3');
 
         $changed = false;
         foreach ($typo3RelatedPackages as $package => $version) {
@@ -124,7 +125,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
         }
 
         if ($changed) {
-            passthru('composer update -W ' . implode(' ', array_keys($typo3RelatedPackages)));
+            passthru('composer update -W --no-scripts ' . implode(' ', array_keys($typo3RelatedPackages)));
         }
     }
 

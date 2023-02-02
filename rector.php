@@ -24,9 +24,8 @@ return static function (RectorConfig $rectorConfig): void {
     // define sets of rules
     $rectorConfig->sets(
         [
-            ...RectorSettings::sets(),
-            //    the filesystem caching disables parallel execution, but why?
-            ...RectorSettings::setsTypo3(),
+            ...RectorSettings::sets(true),
+            ...RectorSettings::setsTypo3(false),
         ]
     );
 

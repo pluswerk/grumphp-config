@@ -7,6 +7,7 @@ parameters:
   convention.phpcslint_ignore_pattern: []
   convention.xlifflint_ignore_pattern: []
   convention.rector_ignore_pattern: []
+  convention.rector_enabled: true
   convention.rector_config: 'rector.php'
   convention.rector_clear-cache: false
   convention.phpstan_level: max
@@ -54,14 +55,12 @@ grumphp:
       metadata:
         priority: 1
     rector:
-      whitelist_patterns: [ ]
+      metadata:
+        enabled: "%convention.rector_enabled%"
       config: "%convention.rector_config%"
       triggered_by: [ 'php' ]
-      clear-cache: "%convention.rector_clear-cache%"
+      clear_cache: "%convention.rector_clear-cache%"
       ignore_patterns: "%convention.rector_ignore_pattern%"
-      no-progress-bar: false
-      files_on_pre_commit: false
   extensions:
     - PLUS\GrumPHPBomTask\ExtensionLoader
     - PLUS\GrumPHPXliffTask\ExtensionLoader
-    - palPalani\GrumPhpRectorTask\ExtensionLoader

@@ -66,7 +66,6 @@ final class RectorSettings
             SetList::PRIVATIZATION, // some things may be bad
             $entirety ? SetList::PSR_4 : null,
             SetList::TYPE_DECLARATION, // YES
-            SetList::TYPE_DECLARATION_STRICT, // YES please
             SetList::EARLY_RETURN,  //YES
         ]);
     }
@@ -76,11 +75,11 @@ final class RectorSettings
      */
     public static function setsTypo3(bool $entirety = false): array
     {
-        if (!InstalledVersions::isInstalled('typo3/cms-core')) {
+        if (!VersionUtility::isInstalled('typo3/cms-core')) {
             return [];
         }
 
-        [$typo3MajorVersion] = explode('.', (string)InstalledVersions::getVersion('typo3/cms-core'), 2);
+        [$typo3MajorVersion] = explode('.', (string)VersionUtility::getVersion('typo3/cms-core'), 2);
         $setList = constant(Typo3SetList::class . '::TYPO3_' . $typo3MajorVersion);
         if ($entirety) {
             $setList = constant(Typo3LevelSetList::class . '::UP_TO_TYPO3_' . $typo3MajorVersion);
