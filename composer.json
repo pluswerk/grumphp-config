@@ -1,51 +1,62 @@
 {
-    "name": "pluswerk/grumphp-config",
-    "description": "GrumPHP config for php projects(mainly TYPO3)",
-    "type": "composer-plugin",
-    "license": "LGPL-3.0-or-later",
-    "authors": [
-        {
-            "name": "Matthias Vogel",
-            "email": "matthias.vogel@pluswerk.ag",
-            "homepage": "http://pluswerk.ag"
-        }
-    ],
-    "config": {
-        "platform": {
-            "php": "7.4"
-        },
-        "preferred-install": {
-          "pluswerk/grumphp-bom-task": "source",
-          "pluswerk/grumphp-xliff-task": "source",
-          "*": "dist"
-        },
-        "allow-plugins": {
-            "phpro/grumphp": true
-        }
-    },
-    "support": {
-        "issues": "https://github.com/pluswerk/grumphp-config/issues"
-    },
-    "autoload": {
-        "psr-4": {
-            "PLUS\\": "src/"
-        }
-    },
-    "require": {
-        "php": "~7.4 || ~8.0 || ~8.1",
-        "composer-plugin-api": "^1.0.0 || ^2.0.0",
-        "phpro/grumphp": "^1.5.1",
-        "pluswerk/grumphp-bom-task": "^7.0.0",
-        "pluswerk/grumphp-xliff-task": "^5.0.0",
-        "squizlabs/php_codesniffer": "^3.6.2",
-        "enlightn/security-checker": "^1.10.0",
-        "php-parallel-lint/php-parallel-lint": "^1.3.2",
-        "phpstan/phpstan": "^1.4.7"
-    },
-    "extra": {
-        "class": "PLUS\\Composer\\Plugin"
-    },
-    "require-dev": {
-        "composer/composer": "^1.10.25 || ^2.2.7"
+  "name" : "pluswerk/grumphp-config",
+  "description" : "GrumPHP config for php projects(mainly TYPO3)",
+  "type" : "composer-plugin",
+  "license" : "LGPL-3.0-or-later",
+  "authors" : [
+    {
+      "name" : "Matthias Vogel",
+      "email" : "matthias.vogel@pluswerk.ag",
+      "homepage" : "https://pluswerk.ag"
     }
+  ],
+  "config" : {
+    "preferred-install" : {
+      "pluswerk/grumphp-bom-task" : "source",
+      "pluswerk/grumphp-xliff-task" : "source",
+      "*" : "dist"
+    },
+    "allow-plugins" : {
+      "phpro/grumphp": true,
+      "phpstan/extension-installer": true,
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true
+    }
+  },
+  "support" : {
+    "issues" : "https://github.com/pluswerk/grumphp-config/issues"
+  },
+  "autoload" : {
+    "psr-4" : {
+      "PLUS\\GrumPHPConfig\\" : "src/"
+    }
+  },
+  "require" : {
+    "php" : "~8.0 || ~8.1 || ~8.2",
+    "composer-plugin-api" : "^2.1.0",
+    "phpro/grumphp" : "^1.15",
+    "pluswerk/grumphp-bom-task" : "^7.0.0",
+    "pluswerk/grumphp-xliff-task" : "^5.0.0",
+    "squizlabs/php_codesniffer" : "^3.7.1",
+    "enlightn/security-checker" : "^1.10.0",
+    "php-parallel-lint/php-parallel-lint" : "^1.3.2",
+    "phpstan/phpstan" : "^1.8.8",
+    "phpstan/extension-installer" : "^1.1",
+    "rector/rector" : "^0.15.10",
+    "composer/semver" : "^3.3.0",
+    "symfony/yaml" : "^5.4.0 || ^6.0"
+  },
+  "extra" : {
+    "class" : "PLUS\\GrumPHPConfig\\Composer\\Plugin"
+  },
+  "require-dev" : {
+    "saschaegerer/phpstan-typo3" : "^1.8.2",
+    "ssch/typo3-rector" : "^1.1.3",
+    "roave/security-advisories" : "dev-latest",
+    "composer/composer" : "^2.4.2"
+  },
+  "require-typo3" : {
+    "saschaegerer/phpstan-typo3" : "^1.8.2",
+    "ssch/typo3-rector" : "^1.1.3"
+  }
 }
