@@ -5,6 +5,7 @@ parameters:
   convention.xmllint_ignore_pattern: []
   convention.yamllint_ignore_pattern: []
   convention.phpcslint_ignore_pattern: []
+  convention.phpcslint_exclude: []
   convention.xlifflint_ignore_pattern: []
   convention.rector_ignore_pattern: []
   convention.rector_enabled: true
@@ -36,6 +37,7 @@ grumphp:
       standard: "PSR12"
       warning_severity: 0
       tab_width: 4
+      exclude: "%convention.phpcslint_exclude%"
       ignore_patterns: "%convention.phpcslint_ignore_pattern%"
     phpstan:
       memory_limit: "-1"

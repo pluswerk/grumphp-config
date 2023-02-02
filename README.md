@@ -14,7 +14,6 @@ pluswerk/grumphp-config will create `grumphp.yml`, `rector.php` and require some
 
 Look into your generated grumphp.yml
 
-
 ### Upgrade to grumphp-config 5
 
 if you upgrade and not start a new Project you should set the `convention.phpstan_level` to `0` or `1`  
