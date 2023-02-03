@@ -75,11 +75,12 @@ final class RectorSettings
      */
     public static function setsTypo3(bool $entirety = false): array
     {
-        if (!VersionUtility::isInstalled('typo3/cms-core')) {
+        $minimalTypo3Version = VersionUtility::getMinimalTypo3Version();
+        if (!$minimalTypo3Version) {
             return [];
         }
 
-        [$typo3MajorVersion] = explode('.', (string)VersionUtility::getVersion('typo3/cms-core'), 2);
+        [$typo3MajorVersion] = explode('.', $minimalTypo3Version, 2);
         $setList = constant(Typo3SetList::class . '::TYPO3_' . $typo3MajorVersion);
         if ($entirety) {
             $setList = constant(Typo3LevelSetList::class . '::UP_TO_TYPO3_' . $typo3MajorVersion);
