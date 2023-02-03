@@ -18,22 +18,12 @@ final class VersionUtility
 
     public static function getMinimalPhpVersion(): ?string
     {
-        $phpVersionConstrain = self::getRootComposerJsonData()['require']['php'] ?? false;
-        if (!$phpVersionConstrain) {
-            return null;
-        }
+        return self::getMinimalVersion('php');
+    }
 
-        if (!is_string($phpVersionConstrain)) {
-            return null;
-        }
-
-        $parser = new VersionParser();
-        $lowerPhpVersion = $parser->parseConstraints($phpVersionConstrain)->getLowerBound()->getVersion();
-        if (!preg_match('#(?<major>\d)\.(?<minor>\d)\..*#', $lowerPhpVersion, $matches)) {
-            return null;
-        }
-
-        return $matches['major'] . $matches['minor'];
+    public static function getMinimalTypo3Version(): ?string
+    {
+        return self::getMinimalVersion('typo3/cms-core');
     }
 
     /**
@@ -78,5 +68,25 @@ final class VersionUtility
     private static function readJson(string $file): array
     {
         return json_decode((string)(file_get_contents($file)), true, 512, JSON_THROW_ON_ERROR) ?: [];
+    }
+
+    private static function getMinimalVersion(string $packageName): ?string
+    {
+        $versionConstrain = self::getRootComposerJsonData()['require'][$packageName] ?? false;
+        if (!$versionConstrain) {
+            return null;
+        }
+
+        if (!is_string($versionConstrain)) {
+            return null;
+        }
+
+        $parser = new VersionParser();
+        $lowerVersion = $parser->parseConstraints($versionConstrain)->getLowerBound()->getVersion();
+        if (!preg_match('#(?<major>\d+)\.(?<minor>\d+)\..*#', $lowerVersion, $matches)) {
+            return null;
+        }
+
+        return $matches['major'] . $matches['minor'];
     }
 }
