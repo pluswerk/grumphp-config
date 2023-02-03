@@ -82,11 +82,11 @@ final class VersionUtility
         }
 
         $parser = new VersionParser();
-        $lowerVersion = $parser->parseConstraints($versionConstrain)->getLowerBound()->getVersion();
-        if (!preg_match('#(?<major>\d+)\.(?<minor>\d+)\..*#', $lowerVersion, $matches)) {
+        $lowestVersion = $parser->parseConstraints($versionConstrain)->getLowerBound()->getVersion();
+        if (!preg_match('#(?<major>\d+)\.(?<minor>\d+)\..*#', $lowestVersion, $matches)) {
             return null;
         }
 
-        return $matches['major'] . $matches['minor'];
+        return $matches['major'] . '.' . $matches['minor'];
     }
 }

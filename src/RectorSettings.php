@@ -32,10 +32,11 @@ final class RectorSettings
      */
     public static function sets(bool $entirety = false): array
     {
-        $phpVersion = VersionUtility::getMinimalPhpVersion() ?? PHP_MAJOR_VERSION . PHP_MINOR_VERSION;
-        $phpFile = constant(SetList::class . '::PHP_' . $phpVersion);
+        $phpVersion = VersionUtility::getMinimalPhpVersion() ?? PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+        [$major, $minor] = explode('.', $phpVersion, 3);
+        $phpFile = constant(SetList::class . '::PHP_' . $major . $minor);
         if ($entirety) {
-            $phpFile = constant(LevelSetList::class . '::UP_TO_PHP_' . $phpVersion);
+            $phpFile = constant(LevelSetList::class . '::UP_TO_PHP_' . $major . $minor);
         }
 
         assert(is_string($phpFile));
@@ -75,15 +76,33 @@ final class RectorSettings
      */
     public static function setsTypo3(bool $entirety = false): array
     {
+        $setList = null;
         $minimalTypo3Version = VersionUtility::getMinimalTypo3Version();
         if (!$minimalTypo3Version) {
             return [];
         }
 
-        [$typo3MajorVersion] = explode('.', $minimalTypo3Version, 2);
-        $setList = constant(Typo3SetList::class . '::TYPO3_' . $typo3MajorVersion);
-        if ($entirety) {
-            $setList = constant(Typo3LevelSetList::class . '::UP_TO_TYPO3_' . $typo3MajorVersion);
+        [$major] = explode('.', $minimalTypo3Version, 2);
+
+        switch ($major) {
+            case 7:
+                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_7 : Typo3SetList::TYPO3_76;
+                break;
+            case 8:
+                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_8 : Typo3SetList::TYPO3_87;
+                break;
+            case 9:
+                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_9 : Typo3SetList::TYPO3_95;
+                break;
+            case 10:
+                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_10 : Typo3SetList::TYPO3_104;
+                break;
+            case 11:
+                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_11 : Typo3SetList::TYPO3_11;
+                break;
+            case 12:
+                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_12 : Typo3SetList::TYPO3_12;
+                break;
         }
 
         assert(is_string($setList));
@@ -188,7 +207,7 @@ final class RectorSettings
             /**
              * not used:
              */
-            RenameClassMapAliasRector::class
+            RenameClassMapAliasRector::class,
         ];
     }
 }
