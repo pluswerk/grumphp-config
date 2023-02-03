@@ -1,21 +1,2 @@
 parameters:
-	ignoreErrors:
-		-
-			message: "#^Cannot access offset 'config\\-default\\-path' on mixed\\.$#"
-			count: 1
-			path: src/Composer/Plugin.php
-
-		-
-			message: "#^Cannot access offset 'php' on mixed\\.$#"
-			count: 1
-			path: src/VersionUtility.php
-
-		-
-			message: "#^Method PLUS\\\\GrumPHPConfig\\\\VersionUtility\\:\\:getRequire\\(\\) should return array\\<string, string\\> but returns mixed\\.$#"
-			count: 1
-			path: src/VersionUtility.php
-
-		-
-			message: "#^Method PLUS\\\\GrumPHPConfig\\\\VersionUtility\\:\\:readJson\\(\\) should return array\\<string, mixed\\> but returns mixed\\.$#"
-			count: 1
-			path: src/VersionUtility.php
+	ignoreErrors: []
