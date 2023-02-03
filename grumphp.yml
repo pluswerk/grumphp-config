@@ -11,7 +11,7 @@ parameters:
   convention.rector_enabled: true
   convention.rector_config: 'rector.php'
   convention.rector_clear-cache: false
-  convention.phpstan_level: max
+  convention.phpstan_level: ~
 
 grumphp:
   stop_on_failure: false

@@ -14,11 +14,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->cacheDirectory('./var/cache/rector');
 
     $rectorConfig->paths(
-        array_filter([
-            is_dir(__DIR__ . '/src') ? __DIR__ . '/src' : null,
-            is_dir(__DIR__ . '/extensions') ? __DIR__ . '/extensions' : null,
-            is_dir(__DIR__ . '/Classes') ? __DIR__ . '/Classes' : null,
-        ])
+        array_filter(explode("\n", (string)shell_exec("git ls-files | grep '\.php$'")))
     );
 
     // define sets of rules

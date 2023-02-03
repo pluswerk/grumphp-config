@@ -71,6 +71,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
         $this->removeOldConfigPath();
         $this->installTypo3Dependencies();
         $this->createGrumphpConfig();
+        $this->createPhpStanConfig();
 
         $this->simpleProcessing();
     }
@@ -182,6 +183,17 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
         if ($changed) {
             file_put_contents($grumphpPath, Yaml::dump($data, 2, 2));
             $this->message('added some default conventions to grumphp.yml', 'yellow');
+        }
+    }
+
+    private function createPhpStanConfig(): void
+    {
+        $fileNames = ['phpstan.neon', 'phpstan-baseline.neon'];
+        foreach ($fileNames as $fileName) {
+            if (!file_exists(getcwd() . '/' . $fileName)) {
+                copy(dirname(__DIR__, 2) . '/' . $fileName, getcwd() . '/' . $fileName);
+                $this->message($fileName . ' file created', 'yellow');
+            }
         }
     }
 

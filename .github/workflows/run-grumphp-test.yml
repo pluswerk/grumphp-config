@@ -10,12 +10,9 @@ jobs:
           - '8.0'
           - '8.1'
           - '8.2'
-        composer:
-          - install --no-progress --no-scripts -n
-          - update --no-progress --no-scripts -n --prefer-lowest
     container:
       image: kanti/buildy:${{ matrix.php }}
     steps:
       - uses: actions/checkout@v2
-      - run: composer ${{ matrix.composer }}
+      - run: composer install --no-progress --no-scripts -n
       - run: ./vendor/bin/grumphp run
