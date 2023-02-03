@@ -8,14 +8,8 @@
 composer require pluswerk/grumphp-config --dev
 ````
 
-pluswerk/grumphp-config will create `grumphp.yml`, `rector.php` and require some project specific resources if necessary 
+pluswerk/grumphp-config will create `grumphp.yml`, `rector.php`, `phpstan.neon`, `phpstan-baseline.neon` and require some project specific resources if necessary 
 
 ### You want to override settings?:
 
 Look into your generated grumphp.yml
-
-### Upgrade to grumphp-config 5
-
-if you upgrade and not start a new Project you should set the `convention.phpstan_level` to `0` or `1`  
-so the upgrade is not that painfull for now  
-you should gradually increase the phpstan level until you reach the `max` level
