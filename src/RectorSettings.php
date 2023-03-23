@@ -101,6 +101,7 @@ final class RectorSettings
                 $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_11 : Typo3SetList::TYPO3_11;
                 break;
             case 12:
+            case 'dev-main':
                 $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_12 : Typo3SetList::TYPO3_12;
                 break;
         }
