@@ -3,6 +3,9 @@
   "description" : "GrumPHP config for php projects(mainly TYPO3)",
   "type" : "composer-plugin",
   "license" : "LGPL-3.0-or-later",
+  "keywords" : [ 
+    "dev"
+  ],
   "authors" : [
     {
       "name" : "Matthias Vogel",
