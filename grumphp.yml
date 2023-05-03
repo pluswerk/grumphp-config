@@ -26,6 +26,11 @@ grumphp:
       no_check_publish: true
       with_dependencies: false
       strict: false
+    composer_normalize:
+      indent_size: 2
+      indent_style: space
+      no_check_lock: false
+      no_update_lock: false
     git_commit_message:
       max_subject_width: 120
       max_body_width: 120
