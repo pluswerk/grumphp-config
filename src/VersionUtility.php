@@ -87,6 +87,7 @@ final class VersionUtility
         if ($lowestVersion === '0.0.0.0-dev') {
             return explode('#', $parser->normalize($versionConstrain), 2)[0];
         }
+
         if (!preg_match('#(?<major>\d+)\.(?<minor>\d+)\..*#', $lowestVersion, $matches)) {
             return null;
         }
