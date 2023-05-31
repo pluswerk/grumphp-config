@@ -14,7 +14,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->cacheDirectory('./var/cache/rector');
 
     $rectorConfig->paths(
-        array_filter(explode("\n", (string)shell_exec("git ls-files | xargs ls -d 2>/dev/null | grep -E '\.(php|html)$'")))
+        array_filter(explode("\n", (string)shell_exec("git ls-files | xargs ls -d 2>/dev/null | grep -E '\.(php|html|typoscript)$'")))
     );
 
     // define sets of rules
