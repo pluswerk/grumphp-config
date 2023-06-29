@@ -26,6 +26,7 @@ use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictGetterMethodRe
 use Ssch\TYPO3Rector\Rector\Migrations\RenameClassMapAliasRector;
 use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
+use Rector\DeadCode\Rector\MethodCall\RemoveEmptyMethodCallRector;
 
 final class RectorSettings
 {
@@ -214,6 +215,10 @@ final class RectorSettings
              * TO:   * @ var ObjectStorage
              */
             TypedPropertyFromStrictGetterMethodReturnTypeRector::class,
+            /**
+             * perfomance issues in many projects
+             */
+            RemoveEmptyMethodCallRector::class,
         ];
     }
 
