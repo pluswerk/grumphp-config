@@ -16,8 +16,6 @@ use Rector\CodingStyle\Rector\PostInc\PostIncDecToPreIncDecRector;
 use Rector\CodingStyle\Rector\Switch_\BinarySwitchToIfElseRector;
 use Rector\Php70\Rector\Assign\ListSwapArrayOrderRector;
 use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
-use Rector\Privatization\Rector\Class_\ChangeReadOnlyVariableWithDefaultValueToConstantRector;
-use Rector\Privatization\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -160,20 +158,6 @@ final class RectorSettings
              * TO:   ->select(['a', 'b'])
              */
             UnSpreadOperatorRector::class,
-            /**
-             * FROM: $domain = 'https://efsrgtdhj';
-             * TO:   self::DOMAIN
-             */
-            ChangeReadOnlyVariableWithDefaultValueToConstantRector::class,
-            /**
-             * FROM: protected string $name = '';
-             * TO:   const NAME = '';
-             *
-             * ignore for models so the attributes are not made to const
-             */
-            ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class => [
-                '/*/Model/*',
-            ],
             /**
              * FROM: protected string $name;
              * TO:   private string  $name;

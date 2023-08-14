@@ -208,6 +208,6 @@ final class Plugin implements PluginInterface, EventSubscriberInterface
             $colorEnd = '</fg=' . $color . '>';
         }
 
-        $this->io->write('pluswerk/grumphp-config' . ': ' . $colorStart . $message . $colorEnd);
+        $this->io->write('pluswerk/grumphp-config: ' . $colorStart . $message . $colorEnd);
     }
 }
