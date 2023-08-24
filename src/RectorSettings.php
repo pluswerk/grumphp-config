@@ -25,6 +25,7 @@ use Ssch\TYPO3Rector\Rector\Migrations\RenameClassMapAliasRector;
 use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
 use Rector\DeadCode\Rector\MethodCall\RemoveEmptyMethodCallRector;
+use Rector\Php73\Rector\ConstFetch\SensitiveConstantNameRector;
 
 final class RectorSettings
 {
@@ -220,6 +221,10 @@ final class RectorSettings
              * not used:
              */
             RenameClassMapAliasRector::class,
+            /**
+             * in combination with ConstantsToEnvironmentApiCallRector not the best rule
+             */
+            SensitiveConstantNameRector::class,
         ];
     }
 }
