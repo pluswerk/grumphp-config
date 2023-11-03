@@ -68,7 +68,6 @@ final class RectorSettings
                 //SetList::PHP_81, // YES, included in LevelSetList::class . '::UP_TO_PHP_' ...
                 //SetList::PHP_82, // YES, included in LevelSetList::class . '::UP_TO_PHP_' ...
                 SetList::PRIVATIZATION, // some things may be bad
-                $entirety ? SetList::PSR_4 : null,
                 SetList::TYPE_DECLARATION, // YES
                 SetList::EARLY_RETURN,  //YES
                 SetList::INSTANCEOF,
@@ -123,7 +122,7 @@ final class RectorSettings
      */
     public static function skip(): array
     {
-        return [
+        return array_filter([
             /**
              * FROM: if($object) {
              * TO:   if($object !== null) {
@@ -202,9 +201,10 @@ final class RectorSettings
             TypedPropertyFromStrictGetterMethodReturnTypeRector::class,
             /**
              * perfomance issues in many projects
+             * @deprecated remove if rector 0.17.0 is not supported anymore:
              */
-            RemoveEmptyMethodCallRector::class,
-        ];
+            class_exists(RemoveEmptyMethodCallRector::class) ? RemoveEmptyMethodCallRector::class : null,
+        ]);
     }
 
     /**
