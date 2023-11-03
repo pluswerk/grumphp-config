@@ -7,6 +7,10 @@ use Ssch\TYPO3Rector\Rector\General\ConvertImplicitVariablesToExplicitGlobalsRec
 use Rector\Config\RectorConfig;
 
 return static function (RectorConfig $rectorConfig): void {
+    if (!class_exists(InjectMethodToConstructorInjectionRector::class)) {
+        return;
+    }
+
     $rectorConfig->rules(
         [
             InjectMethodToConstructorInjectionRector::class,
