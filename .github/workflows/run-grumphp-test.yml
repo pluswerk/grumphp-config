@@ -15,11 +15,11 @@ jobs:
       - uses: actions/checkout@v2
       - run: git config --global --add safe.directory /__w/grumphp-config/grumphp-config
       - run: |
-          composer install --no-progress --no-scripts -n --ignore-platform-req=php+ \
+          composer install --no-progress --no-scripts -n \
           && mv phpstan-baseline-without-typo3.neon phpstan-baseline.neon
         if: ${{ ! matrix.typo3 }}
 
-      - run: composer req saschaegerer/phpstan-typo3 ssch/typo3-rector --no-progress --no-scripts -n --ignore-platform-req=php+
+      - run: composer req saschaegerer/phpstan-typo3 ssch/typo3-rector --no-progress --no-scripts -n
         if: ${{ matrix.typo3 }}
 
       - run: ./vendor/bin/grumphp run
