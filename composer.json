@@ -35,7 +35,7 @@
     "symfony/yaml": "^5.4.0 || ^6.0"
   },
   "require-dev": {
-    "composer/composer": "^2.5.5",
+    "composer/composer": "^2.6.6",
     "pluswerk/grumphp-bom-task": "dev-main as 8.99.99",
     "pluswerk/grumphp-xliff-task": "dev-main as 6.99.99",
     "roave/security-advisories": "dev-latest"
