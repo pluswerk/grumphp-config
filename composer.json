@@ -21,7 +21,7 @@
     "composer-plugin-api": "^2.1.0",
     "andersundsehr/phpstan-git-files": "^1.0.1",
     "composer/semver": "^3.3.0",
-    "enlightn/security-checker": "^1.10.0",
+    "enlightn/security-checker": "^1.10.0 || ^2",
     "ergebnis/composer-normalize": "^2.31",
     "kcs/psr-phpstan-rules": "^1.1",
     "php-parallel-lint/php-parallel-lint": "^1.3.2",
@@ -35,7 +35,7 @@
     "symfony/yaml": "^5.4.0 || ^6.0"
   },
   "require-dev": {
-    "composer/composer": "^2.5.5",
+    "composer/composer": "^2.6.6",
     "pluswerk/grumphp-bom-task": "dev-main as 8.99.99",
     "pluswerk/grumphp-xliff-task": "dev-main as 6.99.99",
     "roave/security-advisories": "dev-latest"
