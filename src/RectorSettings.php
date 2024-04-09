@@ -9,22 +9,21 @@ use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
-use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\CodingStyle\Rector\If_\NullableCompareToNullRector;
 use Rector\CodingStyle\Rector\PostInc\PostIncDecToPreIncDecRector;
-use Rector\CodingStyle\Rector\Switch_\BinarySwitchToIfElseRector;
 use Rector\Php70\Rector\Assign\ListSwapArrayOrderRector;
 use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
+use Rector\Strict\Rector\If_\BooleanInIfConditionRuleFixerRector;
+use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
 use Rector\TypeDeclaration\Rector\BooleanAnd\BinaryOpNullableToInstanceofRector;
-use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictGetterMethodReturnTypeRector;
-use Ssch\TYPO3Rector\Rector\Migrations\RenameClassMapAliasRector;
+use Ssch\TYPO3Rector\CodeQuality\General\RenameClassMapAliasRector;
 use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
-use Rector\DeadCode\Rector\MethodCall\RemoveEmptyMethodCallRector;
 use Rector\Php73\Rector\ConstFetch\SensitiveConstantNameRector;
 
 final class RectorSettings
@@ -45,14 +44,16 @@ final class RectorSettings
 
         return array_filter(
             [
-                // SetList::ACTION_INJECTION_TO_CONSTRUCTOR_INJECTION, // NO
                 SetList::CODE_QUALITY, // YES
                 SetList::CODING_STYLE, // YES
                 SetList::DEAD_CODE, // YES
+                SetList::STRICT_BOOLEANS, // only DisallowedEmptyRuleFixerRector
                 //SetList::GMAGICK_TO_IMAGICK, // NO
-                //SetList::MONOLOG_20, // no usage
-                //SetList::MYSQL_TO_MYSQLI, // no usage
                 //SetList::NAMING, //NO is not good
+                SetList::PRIVATIZATION, // some things may be bad
+                SetList::TYPE_DECLARATION, // YES
+                SetList::EARLY_RETURN, // YES
+                SetList::INSTANCEOF,
                 $phpFile,
                 //SetList::PHP_52, // YES, included in LevelSetList::class . '::UP_TO_PHP_' ...
                 //SetList::PHP_53, // YES, included in LevelSetList::class . '::UP_TO_PHP_' ...
@@ -67,10 +68,6 @@ final class RectorSettings
                 //SetList::PHP_80, // YES, included in LevelSetList::class . '::UP_TO_PHP_' ...
                 //SetList::PHP_81, // YES, included in LevelSetList::class . '::UP_TO_PHP_' ...
                 //SetList::PHP_82, // YES, included in LevelSetList::class . '::UP_TO_PHP_' ...
-                SetList::PRIVATIZATION, // some things may be bad
-                SetList::TYPE_DECLARATION, // YES
-                SetList::EARLY_RETURN,  //YES
-                SetList::INSTANCEOF,
             ]
         );
     }
@@ -89,24 +86,18 @@ final class RectorSettings
         [$major] = explode('.', $minimalTypo3Version, 2);
 
         switch ($major) {
-            case 7:
-                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_7 : Typo3SetList::TYPO3_76;
-                break;
-            case 8:
-                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_8 : Typo3SetList::TYPO3_87;
-                break;
-            case 9:
-                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_9 : Typo3SetList::TYPO3_95;
-                break;
             case 10:
-                $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_10 : Typo3SetList::TYPO3_104;
+                $setList = Typo3LevelSetList::UP_TO_TYPO3_10;
                 break;
             case 11:
                 $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_11 : Typo3SetList::TYPO3_11;
                 break;
             case 12:
-            case 'dev-main':
                 $setList = $entirety ? Typo3LevelSetList::UP_TO_TYPO3_12 : Typo3SetList::TYPO3_12;
+                break;
+            case 13:
+            case 'dev-main':
+                $setList = Typo3SetList::TYPO3_13;
                 break;
         }
 
@@ -114,6 +105,8 @@ final class RectorSettings
         return [
             $setList,
             __DIR__ . '/../rector-typo3-rule-set.php',
+           Typo3SetList::CODE_QUALITY,
+           Typo3SetList::GENERAL,
         ];
     }
 
@@ -149,16 +142,6 @@ final class RectorSettings
              */
             CountArrayToEmptyArrayComparisonRector::class,
             /**
-             * FROM: switch($x) {
-             * TO:   if($X === '...') {
-             */
-            BinarySwitchToIfElseRector::class,
-            /**
-             * FROM: ->select('a', 'b')
-             * TO:   ->select(['a', 'b'])
-             */
-            UnSpreadOperatorRector::class,
-            /**
              * FROM: protected string $name;
              * TO:   private string  $name;
              *
@@ -190,20 +173,21 @@ final class RectorSettings
              */
             ExplicitBoolCompareRector::class,
             /**
+             * FROM: (!self::$email) {
+             * TO:   if (self::$email === '' || self::$email === '0') {
+             */
+            BooleanInBooleanNotRuleFixerRector::class,
+            BooleanInIfConditionRuleFixerRector::class,
+            /**
+             * FROM: $filter['userGroup'] = max($userGroups ?: [0]);
+             * TO:   $filter['userGroup'] = max($userGroups !== [] ? $userGroups : [0]);
+             */
+            DisallowedShortTernaryRuleFixerRector::class,
+            /**
              * FROM: isset($this->x);
              * TO:   property_exists($this, 'x') && $this->x !== null;
              */
             IssetOnPropertyObjectToPropertyExistsRector::class,
-            /**
-             * FROM: * @ var ObjectStorage<Moption>
-             * TO:   * @ var ObjectStorage
-             */
-            TypedPropertyFromStrictGetterMethodReturnTypeRector::class,
-            /**
-             * perfomance issues in many projects
-             * @deprecated remove if rector 0.17.0 is not supported anymore:
-             */
-            class_exists(RemoveEmptyMethodCallRector::class) ? RemoveEmptyMethodCallRector::class : null,
         ]);
     }
 
