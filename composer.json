@@ -75,6 +75,6 @@
   },
   "require-typo3": {
     "saschaegerer/phpstan-typo3": "^1.8.2",
-    "ssch/typo3-rector": "^2.3.2"
+    "ssch/typo3-rector": "^2.4.0"
   }
 }
