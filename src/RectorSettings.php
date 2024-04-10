@@ -19,6 +19,7 @@ use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
 use Rector\Strict\Rector\If_\BooleanInIfConditionRuleFixerRector;
+use Rector\Strict\Rector\Ternary\BooleanInTernaryOperatorRuleFixerRector;
 use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
 use Rector\TypeDeclaration\Rector\BooleanAnd\BinaryOpNullableToInstanceofRector;
 use Ssch\TYPO3Rector\CodeQuality\General\RenameClassMapAliasRector;
@@ -188,6 +189,11 @@ final class RectorSettings
              * TO:   property_exists($this, 'x') && $this->x !== null;
              */
             IssetOnPropertyObjectToPropertyExistsRector::class,
+            /**
+             * FROM: $ext ? $ext : '';
+             * TO:   $ext !== '' && $ext !== '0' && $ext !== [] ? $ext : '';
+             */
+            BooleanInTernaryOperatorRuleFixerRector::class,
         ]);
     }
 
