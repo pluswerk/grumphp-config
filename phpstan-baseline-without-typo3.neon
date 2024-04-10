@@ -1,17 +1,22 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Class Ssch\\\\TYPO3Rector\\\\Rector\\\\General\\\\ConvertImplicitVariablesToExplicitGlobalsRector not found\\.$#"
+			message: "#^Class Ssch\\\\TYPO3Rector\\\\CodeQuality\\\\General\\\\ConvertImplicitVariablesToExplicitGlobalsRector not found\\.$#"
 			count: 1
 			path: rector-typo3-rule-set.php
 
 		-
-			message: "#^Parameter \\#1 \\$rectorClasses of method Rector\\\\Config\\\\RectorConfig\\:\\:rules\\(\\) expects array\\<class\\-string\\<Rector\\\\Core\\\\Contract\\\\Rector\\\\RectorInterface\\>\\>, array\\<int, string\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$rectorClasses of method Rector\\\\Config\\\\RectorConfig\\:\\:rules\\(\\) expects array\\<class\\-string\\<Rector\\\\Contract\\\\Rector\\\\RectorInterface\\>\\>, array\\<int, string\\> given\\.$#"
 			count: 1
 			path: rector-typo3-rule-set.php
 
 		-
-			message: "#^Access to constant TYPO3_104 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3SetList\\.$#"
+			message: "#^Access to constant CODE_QUALITY on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3SetList\\.$#"
+			count: 1
+			path: src/RectorSettings.php
+
+		-
+			message: "#^Access to constant GENERAL on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3SetList\\.$#"
 			count: 1
 			path: src/RectorSettings.php
 
@@ -26,17 +31,7 @@ parameters:
 			path: src/RectorSettings.php
 
 		-
-			message: "#^Access to constant TYPO3_76 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3SetList\\.$#"
-			count: 1
-			path: src/RectorSettings.php
-
-		-
-			message: "#^Access to constant TYPO3_87 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3SetList\\.$#"
-			count: 1
-			path: src/RectorSettings.php
-
-		-
-			message: "#^Access to constant TYPO3_95 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3SetList\\.$#"
+			message: "#^Access to constant TYPO3_13 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3SetList\\.$#"
 			count: 1
 			path: src/RectorSettings.php
 
@@ -56,21 +51,11 @@ parameters:
 			path: src/RectorSettings.php
 
 		-
-			message: "#^Access to constant UP_TO_TYPO3_7 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3LevelSetList\\.$#"
+			message: "#^Access to constant UP_TO_TYPO3_13 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3LevelSetList\\.$#"
 			count: 1
 			path: src/RectorSettings.php
 
 		-
-			message: "#^Access to constant UP_TO_TYPO3_8 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3LevelSetList\\.$#"
-			count: 1
-			path: src/RectorSettings.php
-
-		-
-			message: "#^Access to constant UP_TO_TYPO3_9 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3LevelSetList\\.$#"
-			count: 1
-			path: src/RectorSettings.php
-
-		-
-			message: "#^Class Ssch\\\\TYPO3Rector\\\\Rector\\\\Migrations\\\\RenameClassMapAliasRector not found\\.$#"
+			message: "#^Class Ssch\\\\TYPO3Rector\\\\CodeQuality\\\\General\\\\RenameClassMapAliasRector not found\\.$#"
 			count: 1
 			path: src/RectorSettings.php
