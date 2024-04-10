@@ -51,6 +51,11 @@ parameters:
 			path: src/RectorSettings.php
 
 		-
+			message: "#^Access to constant UP_TO_TYPO3_13 on an unknown class Ssch\\\\TYPO3Rector\\\\Set\\\\Typo3LevelSetList\\.$#"
+			count: 1
+			path: src/RectorSettings.php
+
+		-
 			message: "#^Class Ssch\\\\TYPO3Rector\\\\CodeQuality\\\\General\\\\RenameClassMapAliasRector not found\\.$#"
 			count: 1
 			path: src/RectorSettings.php
