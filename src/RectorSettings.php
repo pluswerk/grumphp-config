@@ -11,9 +11,7 @@ use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\CodingStyle\Rector\If_\NullableCompareToNullRector;
-use Rector\CodingStyle\Rector\PostInc\PostIncDecToPreIncDecRector;
 use Rector\Php70\Rector\Assign\ListSwapArrayOrderRector;
-use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -133,11 +131,6 @@ final class RectorSettings
              */
             BinaryOpNullableToInstanceofRector::class,
             /**
-             * FROM: $i++
-             * TO:   ++$i
-             */
-            PostIncDecToPreIncDecRector::class,
-            /**
              * FROM: if(count($array)) {
              * TO:   if($array !== []) {
              */
@@ -156,11 +149,6 @@ final class RectorSettings
              * => we don't do it once!
              */
             ListSwapArrayOrderRector::class,
-            /**
-             * FROM: 1305630314
-             * TO:   1_305_630_314
-             */
-            AddLiteralSeparatorToNumberRector::class,
             /**
              * Maybe to a later date?
              *
