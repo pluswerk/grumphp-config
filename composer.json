@@ -30,12 +30,12 @@
     "phpstan/phpstan": "^1.9.0",
     "pluswerk/grumphp-bom-task": "^8.0.0",
     "pluswerk/grumphp-xliff-task": "^6.0.0",
-    "rector/rector": "^1.0.4",
+    "rector/rector": "^1.2.2",
     "squizlabs/php_codesniffer": "^3.7.1",
     "symfony/yaml": "^5.4.0 || ^6.0 || ^7.0"
   },
   "require-dev": {
-    "composer/composer": "^2.6.6",
+    "composer/composer": "^2.7.7",
     "pluswerk/grumphp-bom-task": "dev-main as 8.99.99",
     "pluswerk/grumphp-xliff-task": "dev-main as 6.99.99",
     "roave/security-advisories": "dev-latest"
